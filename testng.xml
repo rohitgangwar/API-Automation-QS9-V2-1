@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="EPPMAPITestSuite">
+  <test thread-count="5" name="APITests">
+  
+    <classes>
+      <class name="eppmAPIFramework.com.rest.test.CreateProjectTest"/>
+      <class name="eppmAPIFramework.com.rest.test.CreateWBSHierarchyTest"/>
+      <class name="eppmAPIFramework.com.rest.test.UpdateWBSElementTest"/>
+      <class name="eppmAPIFramework.com.rest.test.DeleteProjectTest"/>
+    </classes>
+    
+  </test> <!-- APITests -->
+</suite> <!-- EPPMAPITestSuite -->
