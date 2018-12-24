@@ -265,7 +265,7 @@ public class Service {
 
 			ApiResponseHolder apiResponseHoldeNew = service.deleteProjectAPI(reqUUID);
 
-			if (apiResponseHoldeNew.getStatusCode() == 206) {
+			if (apiResponseHoldeNew.getStatusCode() == 204) {
 				return true;
 			}
 		}
