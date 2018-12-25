@@ -23,7 +23,7 @@ public class RestAssuredClient {
 	
 	public static ApiResponseHolder doPost(String endPoint, String body, String csrfToken,
 			Map<String, String> requestHeader) {
-		RequestSpecification requestSpecification = RestAssured.given();
+		RequestSpecification requestSpecification = RestAssured.given().relaxedHTTPSValidation();
 		requestSpecification.contentType(ContentType.JSON);
 		requestSpecification.accept(ContentType.JSON);
 		for (String key : requestHeader.keySet()) {
@@ -45,7 +45,7 @@ public class RestAssuredClient {
 	}
 
 	public static ApiResponseHolder doGet(String endPoint, String csrfToken, Map<String, String> requestHeader) {
-		RequestSpecification requestSpecification = RestAssured.given();
+		RequestSpecification requestSpecification = RestAssured.given().relaxedHTTPSValidation();
 		requestSpecification.contentType(ContentType.JSON);
 		requestSpecification.accept(ContentType.JSON);
 		if (csrfToken != null) {
@@ -79,7 +79,7 @@ public class RestAssuredClient {
 	
 	public static ApiResponseHolder doPatch(String endPoint, String body, String csrfToken,
 			Map<String, String> requestHeader) {
-		RequestSpecification requestSpecification = RestAssured.given();
+		RequestSpecification requestSpecification = RestAssured.given().relaxedHTTPSValidation();
 		requestSpecification.contentType(ContentType.JSON);
 		requestSpecification.accept(ContentType.JSON);
 		for (String key : requestHeader.keySet()) {
@@ -100,7 +100,7 @@ public class RestAssuredClient {
 	}
 	
 	public static ApiResponseHolder doDelete(String endPoint, String csrfToken, Map<String, String> requestHeader) {
-		RequestSpecification requestSpecification = RestAssured.given();
+		RequestSpecification requestSpecification = RestAssured.given().relaxedHTTPSValidation();
 		requestSpecification.contentType(ContentType.JSON);
 		requestSpecification.accept(ContentType.JSON);
 		if (csrfToken != null) {
