@@ -3,32 +3,37 @@ package eppmAPIFramework.com.rest.requestpojo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * This is a Request POJO Class for Create Project Scenarios
+ * This class contains the attributes required to Create a Project
+ * 
+ */
 public class CreateProjectRequest {
 
 	@SerializedName("Project")
 	@Expose
 	private String project;
-	
+
 	@SerializedName("ProjectDescription")
 	@Expose
 	private String projectDescription;
-	
+
 	@SerializedName("ProjectStartDate")
 	@Expose
 	private String projectStartDate;
-	
+
 	@SerializedName("ProjectEndDate")
 	@Expose
 	private String projectEndDate;
-	
+
 	@SerializedName("ProfitCenter")
 	@Expose
 	private String profitCenter;
-	
+
 	@SerializedName("ResponsibleCostCenter")
 	@Expose
 	private String responsibleCostCenter;
-	
+
 	@SerializedName("ProjectProfileCode")
 	@Expose
 	private String projectProfileCode;

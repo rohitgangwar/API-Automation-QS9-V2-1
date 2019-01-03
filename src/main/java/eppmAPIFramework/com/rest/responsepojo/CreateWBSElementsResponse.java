@@ -3,116 +3,120 @@ package eppmAPIFramework.com.rest.responsepojo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * This is a Response POJO Class for Create WBS Elements Scenarios.
+ * This class contains the attributes for Response of Create WBS Element Scenario
+ * 
+ */
 public class CreateWBSElementsResponse {
 
 	@SerializedName("ProjectElementUUID")
 	@Expose
 	private String projectElementUUID;
-	
+
 	@SerializedName("ProjectElement")
 	@Expose
 	private String projectElement;
-	
+
 	@SerializedName("WBSElementInternalID")
 	@Expose
 	private String wBSElementInternalID;
-	
+
 	@SerializedName("ProjectUUID")
 	@Expose
 	private String projectUUID;
-	
+
 	@SerializedName("ProjectElementDescription")
 	@Expose
 	private String projectElementDescription;
-	
+
 	@SerializedName("ParentObjectUUID")
 	@Expose
 	private String parentObjectUUID;
-	
+
 	@SerializedName("ProcessingStatus")
 	@Expose
 	private String processingStatus;
-	
+
 	@SerializedName("SortingNumber")
 	@Expose
 	private String sortingNumber;
-	
+
 	@SerializedName("PlannedStartDate")
 	@Expose
 	private String plannedStartDate;
-	
+
 	@SerializedName("PlannedEndDate")
 	@Expose
 	private String plannedEndDate;
-	
+
 	@SerializedName("ResponsibleCostCenter")
 	@Expose
 	private String responsibleCostCenter;
-	
+
 	@SerializedName("CompanyCode")
 	@Expose
 	private String companyCode;
-	
+
 	@SerializedName("ProfitCenter")
 	@Expose
 	private String profitCenter;
-	
+
 	@SerializedName("FunctionalArea")
 	@Expose
 	private String functionalArea;
-	
+
 	@SerializedName("ControllingArea")
 	@Expose
 	private String controllingArea;
-	
+
 	@SerializedName("Plant")
 	@Expose
 	private String plant;
-	
+
 	@SerializedName("FactoryCalendar")
 	@Expose
 	private String factoryCalendar;
-	
+
 	@SerializedName("CostingSheet")
 	@Expose
 	private String costingSheet;
-	
+
 	@SerializedName("InvestmentProfile")
 	@Expose
 	private String investmentProfile;
-	
+
 	@SerializedName("WBSIsStatisticalWBSElement")
 	@Expose
 	private Boolean wBSIsStatisticalWBSElement;
-	
+
 	@SerializedName("CostCenter")
 	@Expose
 	private String costCenter;
-	
+
 	@SerializedName("CreatedByUser")
 	@Expose
 	private String createdByUser;
-	
+
 	@SerializedName("CreationDateTime")
 	@Expose
 	private String creationDateTime;
-	
+
 	@SerializedName("LastChangeDateTime")
 	@Expose
 	private String lastChangeDateTime;
-	
+
 	@SerializedName("LastChangedByUser")
 	@Expose
 	private String lastChangedByUser;
-	
+
 	@SerializedName("ProjectLastChangedDateTime")
 	@Expose
 	private String projectLastChangedDateTime;
-	
+
 	@SerializedName("to_SubProjElement")
 	@Expose
 	private SubProjectResponse to_SubProjElement;
-
 
 	public String getProjectElementUUID() {
 		return projectElementUUID;
@@ -322,7 +326,6 @@ public class CreateWBSElementsResponse {
 		this.projectLastChangedDateTime = projectLastChangedDateTime;
 	}
 
-	
 	public SubProjectResponse getTo_SubProjElement() {
 		return to_SubProjElement;
 	}

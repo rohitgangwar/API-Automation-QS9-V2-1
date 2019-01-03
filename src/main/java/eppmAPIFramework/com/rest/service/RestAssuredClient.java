@@ -17,10 +17,20 @@ import com.jayway.restassured.specification.RequestSpecification;
 
 import eppmAPIFramework.beans.ApiResponseHolder;
 
+/**
+ * This class contains Generic HTTP Methods (GET, Post, PATCH, DELETE)
+ * These methods will be used by different API's accordingly
+ * 
+ */
 public class RestAssuredClient {
-	
+
 	private static Logger logger = Logger.getLogger("RestAssuredClient");
-	
+
+	/**
+	 * This is a Generic HTTP POST Method that will be used to make any Post call by
+	 * API
+	 * 
+	 */
 	public static ApiResponseHolder doPost(String endPoint, String body, String csrfToken,
 			Map<String, String> requestHeader) {
 		RequestSpecification requestSpecification = RestAssured.given().relaxedHTTPSValidation();
@@ -29,7 +39,7 @@ public class RestAssuredClient {
 		for (String key : requestHeader.keySet()) {
 			Header header = new Header(key, requestHeader.get(key));
 			requestSpecification.header(header);
-		
+
 		}
 		if (csrfToken != null) {
 			requestSpecification.header("X-CSRF-TOKEN", csrfToken);
@@ -37,13 +47,18 @@ public class RestAssuredClient {
 		requestSpecification.body(body);
 		logger.info("end point url.." + endPoint);
 		logger.info("Body.." + body);
-		
+
 		Response response = requestSpecification.post(endPoint);
 		ApiResponseHolder apiresponseHolder = getApiResponseHolder(response);
 		logger.info(apiresponseHolder.toString());
 		return apiresponseHolder;
 	}
 
+	/**
+	 * This is a Generic HTTP GET Method that will be used to make any GET call by
+	 * API
+	 * 
+	 */
 	public static ApiResponseHolder doGet(String endPoint, String csrfToken, Map<String, String> requestHeader) {
 		RequestSpecification requestSpecification = RestAssured.given().relaxedHTTPSValidation();
 		requestSpecification.contentType(ContentType.JSON);
@@ -62,6 +77,11 @@ public class RestAssuredClient {
 		return apiresponseHolder;
 	}
 
+	/**
+	 * This is a Generic API Response Holder Methods which will hold the Response
+	 * from the API's
+	 * 
+	 */
 	private static ApiResponseHolder getApiResponseHolder(Response response) {
 		ApiResponseHolder apiresponseHolder = new ApiResponseHolder();
 		apiresponseHolder.setResponse(response.getBody().asString());
@@ -75,8 +95,12 @@ public class RestAssuredClient {
 		apiresponseHolder.setResponseHeaders(responseMap);
 		return apiresponseHolder;
 	}
-	
-	
+
+	/**
+	 * This is a Generic HTTP PATCH Method that will be used to make any PATCH call
+	 * by API
+	 * 
+	 */
 	public static ApiResponseHolder doPatch(String endPoint, String body, String csrfToken,
 			Map<String, String> requestHeader) {
 		RequestSpecification requestSpecification = RestAssured.given().relaxedHTTPSValidation();
@@ -98,7 +122,12 @@ public class RestAssuredClient {
 		logger.info(apiresponseHolder.toString());
 		return apiresponseHolder;
 	}
-	
+
+	/**
+	 * This is a Generic HTTP DELETE Method that will be used to make any DELETE
+	 * call by API
+	 * 
+	 */
 	public static ApiResponseHolder doDelete(String endPoint, String csrfToken, Map<String, String> requestHeader) {
 		RequestSpecification requestSpecification = RestAssured.given().relaxedHTTPSValidation();
 		requestSpecification.contentType(ContentType.JSON);
@@ -116,6 +145,5 @@ public class RestAssuredClient {
 		logger.info(apiresponseHolder.toString());
 		return apiresponseHolder;
 	}
-	
 
 }

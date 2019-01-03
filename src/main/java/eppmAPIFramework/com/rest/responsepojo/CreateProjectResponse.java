@@ -3,76 +3,80 @@ package eppmAPIFramework.com.rest.responsepojo;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * This is a Response POJO Class for Create Project Scenarios.
+ * This class contains all the attributes for the Create Project Response
+ * 
+ */
 public class CreateProjectResponse {
 
 	@SerializedName("ProjectUUID")
 	@Expose
 	private String projectUUID;
-	
+
 	@SerializedName("ProjectInternalID")
 	@Expose
 	private String projectInternalID;
-	
+
 	@SerializedName("Project")
 	@Expose
 	private String project;
-	
+
 	@SerializedName("ProjectDescription")
 	@Expose
 	private String projectDescription;
-	
+
 	@SerializedName("EnterpriseProjectType")
 	@Expose
 	private String enterpriseProjectType;
-	
+
 	@SerializedName("PriorityCode")
 	@Expose
 	private String priorityCode;
-	
+
 	@SerializedName("ProjectStartDate")
 	@Expose
 	private String projectStartDate;
-	
+
 	@SerializedName("ProjectEndDate")
 	@Expose
 	private String projectEndDate;
-	
+
 	@SerializedName("ProcessingStatus")
 	@Expose
 	private String processingStatus;
-	
+
 	@SerializedName("ResponsibleCostCenter")
 	@Expose
 	private String responsibleCostCenter;
-	
+
 	@SerializedName("ProfitCenter")
 	@Expose
 	private String profitCenter;
-	
+
 	@SerializedName("ProjectManagerUUID")
 	@Expose
 	private String projectManagerUUID;
-	
+
 	@SerializedName("ProjectProfileCode")
 	@Expose
 	private String projectProfileCode;
-	
+
 	@SerializedName("FunctionalArea")
 	@Expose
 	private String functionalArea;
-	
+
 	@SerializedName("CompanyCode")
 	@Expose
 	private String companyCode;
-	
+
 	@SerializedName("ControllingArea")
 	@Expose
 	private String controllingArea;
-	
+
 	@SerializedName("LastChangeDateTime")
 	@Expose
 	private String lastChangeDateTime;
-
 
 	public String getProjectUUID() {
 		return projectUUID;
@@ -209,7 +213,7 @@ public class CreateProjectResponse {
 	public void setLastChangeDateTime(String lastChangeDateTime) {
 		this.lastChangeDateTime = lastChangeDateTime;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "CreateProjectResponse [projectUUID=" + projectUUID + ", projectInternalID=" + projectInternalID
@@ -221,8 +225,5 @@ public class CreateProjectResponse {
 				+ ", functionalArea=" + functionalArea + ", companyCode=" + companyCode + ", controllingArea="
 				+ controllingArea + ", lastChangeDateTime=" + lastChangeDateTime + "]";
 	}
-
-
-	
 
 }

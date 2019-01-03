@@ -5,24 +5,29 @@ import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+/**
+ * This is a Request POJO Class for Create WBS Elements Scenarios
+ * This class contains the attributes required to Create WBS Elements
+ * 
+ */
 public class CreateWBSElementsRequest {
 
 	@SerializedName("ProjectElement")
 	@Expose
 	private String projectElement;
-	
+
 	@SerializedName("ProjectElementDescription")
 	@Expose
 	private String projectElementDescription;
-	
+
 	@SerializedName("SortingNumber")
 	@Expose
 	private String sortingNumber;
-	
+
 	@SerializedName("PlannedStartDate")
 	@Expose
 	private String plannedStartDate;
-	
+
 	@SerializedName("PlannedEndDate")
 	@Expose
 	private String plannedEndDate;
@@ -30,29 +35,30 @@ public class CreateWBSElementsRequest {
 	@SerializedName("ResponsibleCostCenter")
 	@Expose
 	private String responsibleCostCenter;
-	
+
 	@SerializedName("ProfitCenter")
 	@Expose
 	private String profitCenter;
-	
+
 	@SerializedName("to_SubProjElement")
 	@Expose
 	private List<CreateWBSElementsRequest> to_SubProjElement;
 
 	public CreateWBSElementsRequest() {
-		
+
 	}
-	
+
 	public CreateWBSElementsRequest(String projectElement, String projectElementDescription, String sortingNumber,
 			String plannedStartDate, String plannedEndDate, String responsibleCostCenter, String profitCenter) {
-		this.projectElement=projectElement;
+		this.projectElement = projectElement;
 		this.projectElementDescription = projectElementDescription;
 		this.sortingNumber = sortingNumber;
 		this.plannedStartDate = plannedStartDate;
 		this.plannedEndDate = plannedEndDate;
-		this.responsibleCostCenter =responsibleCostCenter;
-		this.profitCenter=profitCenter;
+		this.responsibleCostCenter = responsibleCostCenter;
+		this.profitCenter = profitCenter;
 	}
+
 	public String getProjectElement() {
 		return projectElement;
 	}
@@ -108,7 +114,7 @@ public class CreateWBSElementsRequest {
 	public void setProfitCenter(String profitCenter) {
 		this.profitCenter = profitCenter;
 	}
-	
+
 	public List<CreateWBSElementsRequest> getTo_SubProjElement() {
 		return to_SubProjElement;
 	}
