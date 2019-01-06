@@ -22,10 +22,40 @@ public class CreateProjectTest {
 	 * Assert to Validate Creation of Investment Project
 	 * 
 	 */
-	@Test
-	public void canCreateProject() {
-		Assert.assertTrue(service.verifyCreateProject(),
+	@Test(priority=1)
+	public void canCreateInvestmentProject() {
+		Assert.assertTrue(service.verifyCreateInvestmentProject(),
 				"Create Project API Failed for Investment Project. The Project ID in the Response does not match with the Project ID used to Create the Project");
+	}
+	
+	/**
+	 * Assert to Validate Creation of Overhead Project
+	 * 
+	 */
+	@Test(priority=2)
+	public void canCreateOverheadProject() {
+		Assert.assertTrue(service.verifyCreateOverheadProject(),
+				"Create Project API Failed for Overhead Project. The Project ID in the Response does not match with the Project ID used to Create the Project");
+	}
+	
+	/**
+	 * Assert to Validate Creation of Statistical Project
+	 * 
+	 */
+	@Test(priority=3)
+	public void canCreateStatisticalProject() {
+		Assert.assertTrue(service.verifyCreateStatisticalProject(),
+				"Create Project API Failed for Statistical Project. The Project ID in the Response does not match with the Project ID used to Create the Project");
+	}
+	
+	/**
+	 * Assert to Validate Creation of Revenue Project
+	 * 
+	 */
+	@Test(priority=4)
+	public void canCreateRevenueProject() {
+		Assert.assertTrue(service.verifyCreateRevenueProject(),
+				"Create Project API Failed for Revenue Project. The Project ID in the Response does not match with the Project ID used to Create the Project");
 	}
 
 }

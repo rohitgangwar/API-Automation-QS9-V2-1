@@ -159,10 +159,11 @@ public class Service {
 	}
 
 	/**
-	 * This Method will verify whether the INVESTMENT Project can be created or not
+	 * This Method will verify whether the Project can be created or NOT
+	 * for different Project Profiles
 	 * 
 	 */
-	public boolean verifyCreateProject() {
+	public boolean verifyCreateProject(String projectProfile) {
 		Service service = new Service();
 
 		Date date = new Date();
@@ -170,7 +171,7 @@ public class Service {
 		String projName = "Proj_" + time;
 
 		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
-				"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", "YP02");
+				"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", projectProfile);
 
 		if (apiResponseHolder.getStatusCode() == 201) {
 			Gson gson = new Gson();
@@ -181,13 +182,13 @@ public class Service {
 			System.out.println("Project ID is ---->" + createProjectResponse.getProject());
 			System.out.println("Project UUID is ---->" + createProjectResponse.getProjectUUID());
 
-			if (!createProjectResponse.getProject().equalsIgnoreCase(projName)) {
-				return false;
+			if (createProjectResponse.getProject().equalsIgnoreCase(projName)) {
+				return true;
 			}
 
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -212,8 +213,11 @@ public class Service {
 	 */
 	public boolean verifyUpdateWBSAttributeDescription() {
 		Service service = new Service();
+		Date date = new Date();
+		long time = date.getTime();
+		String projDesc = "ProjDesc" + time;
 		CreateWBSElementsRequest request = new CreateWBSElementsRequest();
-		request.setProjectElementDescription("updated description 88");
+		request.setProjectElementDescription(projDesc);
 		ApiResponseHolder apiResponseHolder = service.updateWBSElementAttributesAPI(request,
 				"9418820a-c0a9-1ed9-81d5-adf9860e8076");
 
@@ -308,6 +312,9 @@ public class Service {
 				System.out.println("Project UUID ---->" + createWBSResponse.getProjectUUID());
 				List<CreateWBSElementsResponse> results = createWBSResponse.getTo_SubProjElement().getResults();
 				System.out.println("result--->" + results);
+				System.out.println(results.get(0).getProjectElement());
+				System.out.println(results.get(1).getProjectElement());
+
 				if (results.size() == 2) {
 					return true;
 				}
@@ -366,6 +373,50 @@ public class Service {
 
 		return false;
 
+	}
+	
+	/**
+	 * This methods verifies whether the INVESTMENT PROJECT
+	 * can be created or NOT
+	 * 
+	 */
+	public boolean verifyCreateInvestmentProject() {
+		String projectProfile = "YP02";
+		boolean value = verifyCreateProject(projectProfile);
+		return value;
+	}
+	
+	/**
+	 * This methods verifies whether the Overhead PROJECT
+	 * can be created or NOT
+	 * 
+	 */
+	public boolean verifyCreateOverheadProject() {
+		String projectProfile = "YP03";
+		boolean value = verifyCreateProject(projectProfile);
+		return value;
+	}
+	
+	/**
+	 * This methods verifies whether the Statistical PROJECT
+	 * can be created or NOT
+	 * 
+	 */
+	public boolean verifyCreateStatisticalProject() {
+		String projectProfile = "YP04";
+		boolean value = verifyCreateProject(projectProfile);
+		return value;
+	}
+	
+	/**
+	 * This methods verifies whether the Revenue PROJECT
+	 * can be created or NOT
+	 * 
+	 */
+	public boolean verifyCreateRevenueProject() {
+		String projectProfile = "YP05";
+		boolean value = verifyCreateProject(projectProfile);
+		return value;
 	}
 
 }
