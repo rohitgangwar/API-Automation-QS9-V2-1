@@ -37,13 +37,23 @@ public class Service {
 
 	private static String csrfToken = null;
 
+//	/**
+//	 * This method contains the AUTHORIZATION Key for CCF/715 SYSTEM Post call by API
+//	 * 
+//	 */
+//	static Map<String, String> requestHeader = new HashMap();
+//	{
+//		requestHeader.put("Authorization", "Basic Q0NGX0NPTU1fMDMwODpXZWxjb21lMSE=");
+//
+//	}
+	
 	/**
-	 * This method contains the AUTHORIZATION Key for CCF SYSTEM Post call by API
+	 * This method contains the AUTHORIZATION Key for CC2/715 SYSTEM Post call by API
 	 * 
 	 */
 	static Map<String, String> requestHeader = new HashMap();
 	{
-		requestHeader.put("Authorization", "Basic Q0NGX0NPTU1fMDMwODpXZWxjb21lMSE=");
+		requestHeader.put("Authorization", "Basic Q0MyX0NPTU1fMDMwODpXZWxjb21lMSE=");
 
 	}
 
@@ -219,7 +229,7 @@ public class Service {
 		CreateWBSElementsRequest request = new CreateWBSElementsRequest();
 		request.setProjectElementDescription(projDesc);
 		ApiResponseHolder apiResponseHolder = service.updateWBSElementAttributesAPI(request,
-				"9418820a-c0a9-1ed9-81d5-adf9860e8076");
+				"1c98ec18-1855-1ee9-85b5-3ab9e93bf020");
 
 		return apiResponseHolder.getStatusCode() == 204;
 
