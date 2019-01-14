@@ -325,7 +325,8 @@ public class Service {
 				System.out.println(results.get(0).getProjectElement());
 				System.out.println(results.get(1).getProjectElement());
 
-				if (results.size() == 2) {
+				if ((results.size() == 2) && (results.get(0).getProjectElement().equalsIgnoreCase(firstChildWBSName))
+						&& (results.get(1).getProjectElement().equalsIgnoreCase(secondChildWBSWBSName))) {
 					return true;
 				}
 			}
@@ -354,11 +355,15 @@ public class Service {
 	 * This methods verifies whether the Project Status is Released or Not
 	 * 
 	 */
-	public boolean verifyProjectStatusRelease() {
+	public boolean verifyCreateHierarchyRELProj() {
 		Service service = new Service();
 		Date date = new Date();
 		long time = date.getTime();
 		String projName = "Proj_" + time;
+
+		String parentWBSName = "Test_" + time + "_PJT1";
+		String firstChildWBSName = "Test_" + time + "_1";
+		String secondChildWBSWBSName = "Test_" + time + "_2";
 
 		System.out.println("Project name was --->" + projName);
 
@@ -370,15 +375,42 @@ public class Service {
 			String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
 
 			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+
 			String reqUUID = createProjectResponse.getProjectUUID();
 
 			CreateProjectRequest requestObj = new CreateProjectRequest();
 
 			ApiResponseHolder apiResponseHoldeNew = service.setProjectStatusReleasedAPI(requestObj, reqUUID);
 
-			if (apiResponseHoldeNew.getStatusCode() == 200) {
-				return true;
+			if (!(apiResponseHoldeNew.getStatusCode() == 200)) {
+				return false;
 			}
+
+			List<CreateWBSElementsRequest> list = new ArrayList<CreateWBSElementsRequest>();
+			CreateWBSElementsRequest request1 = new CreateWBSElementsRequest(firstChildWBSName, "firstChildWBSName",
+					"750", "2018-10-07T00:00:00", "2018-12-31T00:00:00", "10101501", "YB600");
+			CreateWBSElementsRequest request2 = new CreateWBSElementsRequest(secondChildWBSWBSName,
+					"secondChildWBSWBSName", "760", "2018-10-07T00:00:00", "2018-12-31T00:00:00", "10101501", "YB600");
+			list.add(request1);
+			list.add(request2);
+
+			ApiResponseHolder apiResponseHolder5 = service.createWBSElementsAPI(parentWBSName, parentWBSName, "700",
+					"2018-10-07T00:00:00", "2018-12-31T00:00:00", "10101501", "YB600", list,
+					createProjectResponse.getProjectUUID());
+
+			if (apiResponseHolder5.getStatusCode() == 201) {
+				String newResponse1 = sanitizeOutput(apiResponseHolder5.getResponse());
+				CreateWBSElementsResponse createWBSResponse = gson.fromJson(newResponse1,
+						CreateWBSElementsResponse.class);
+
+				List<CreateWBSElementsResponse> results = createWBSResponse.getTo_SubProjElement().getResults();
+
+				if ((results.size() == 2) && (results.get(0).getProjectElement().equalsIgnoreCase(firstChildWBSName))
+						&& (results.get(1).getProjectElement().equalsIgnoreCase(secondChildWBSWBSName))) {
+					return true;
+				}
+			}
+
 		}
 
 		return false;

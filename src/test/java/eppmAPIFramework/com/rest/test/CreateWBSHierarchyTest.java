@@ -7,7 +7,7 @@ import eppmAPIFramework.com.rest.service.Service;
 
 /**
  * This class contains all the Test Cases for Creating Hierarchy 
- * of WBS Elements
+ * of WBS Elements fro different Project Status Scenarios
  * 
  */
 public class CreateWBSHierarchyTest {
@@ -18,20 +18,19 @@ public class CreateWBSHierarchyTest {
 	 * Assert to validate the Creation of Hierarchy for Project in Created Status
 	 * 
 	 */
-	@Test
+	@Test(priority = 1)
 	public void canCreateWBSHierarchy() {
 		Assert.assertTrue(service.verifyCreateWBSHierarchy(),
 				"Creation of WBS Elements Hierarchy Failed for Project in Created Status");
 	}
 
-	// /**
-	// * Assert to verify to Add the Qualify Instance
-	// *
-	// */
-	// @Test
-	// public void canCreateWBSHierarchyRELProj() {
-	// Assert.assertTrue(service.verifyProjectStatusRelease(), "Project status not
-	// chnaged");
-	// }
+	/**
+	 * Assert to validate the Creation of Hierarchy for Project in RELEASED Status
+	 * 
+	 */
+	@Test(priority = 2)
+	public void canCreateWBSHierarchyRELEASEDProj() {
+		Assert.assertTrue(service.verifyCreateHierarchyRELProj(), "Project status not chnaged");
+	}
 
 }
