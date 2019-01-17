@@ -30,7 +30,7 @@ public class CreateWBSHierarchyTest {
 	 */
 	@Test(priority = 2)
 	public void canCreateWBSHierarchyRELEASEDProj() {
-		Assert.assertTrue(service.verifyCreateHierarchyRELProj(), "Project status not chnaged");
+		Assert.assertTrue(service.verifyCreateHierarchyRELProj(), "WBS Hierarchy creation Failed for Released Project");
 	}
 
 }
