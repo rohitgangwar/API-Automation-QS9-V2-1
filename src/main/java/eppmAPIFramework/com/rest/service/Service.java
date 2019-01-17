@@ -292,6 +292,8 @@ public class Service {
 		String parentWBSName = "Test_" + time + "_PJT1";
 		String firstChildWBSName = "Test_" + time + "_1";
 		String secondChildWBSWBSName = "Test_" + time + "_2";
+		
+		System.out.println("Project name was --->" + projName);
 
 		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
 				"2019-10-07T00:00:00", "2019-12-31T00:00:00", "YB600", "10101501", "YP03");
