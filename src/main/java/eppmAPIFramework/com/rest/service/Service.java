@@ -294,7 +294,7 @@ public class Service {
 		String secondChildWBSWBSName = "Test_" + time + "_2";
 
 		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
-				"2019-10-07T00:00:00", "2019-12-31T00:00:00", "YB600", "10101501", "YP02");
+				"2019-10-07T00:00:00", "2019-12-31T00:00:00", "YB600", "10101501", "YP03");
 
 		if (apiResponseHolder.getStatusCode() == 201) {
 			Gson gson = new Gson();
