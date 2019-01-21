@@ -464,5 +464,203 @@ public class Service {
 		boolean value = verifyCreateProject(projectProfile);
 		return value;
 	}
+	
+	/**
+	 * This methods verifies whether the Multiple INVESTMENT PROJECT
+	 * can be created or NOT
+	 * 
+	 */
+	public boolean verifyCreateMultipleInvestmentProject() {
+		String projectProfile = "YP02";
+		boolean value = verifyCreateMultipleINVProject(projectProfile);
+		return value;
+	}
+	
+	/**
+	 * This methods verifies whether the Multiple Overhead PROJECT
+	 * can be created or NOT
+	 * 
+	 */
+	public boolean verifyCreateMultipleOverheadProject() {
+		String projectProfile = "YP03";
+		boolean value = verifyCreateMultipleOVHProject(projectProfile);
+		return value;
+	}
+	
+	/**
+	 * This methods verifies whether the Multiple Statistical PROJECT
+	 * can be created or NOT
+	 * 
+	 */
+	public boolean verifyCreateMultipleStatisticalProject() {
+		String projectProfile = "YP04";
+		boolean value = verifyCreateMultipleStatProject(projectProfile);
+		return value;
+	}
+	
+	/**
+	 * This methods verifies whether the Multiple Revenue PROJECT
+	 * can be created or NOT
+	 * 
+	 */
+	public boolean verifyCreateMultipleRevenueProject() {
+		String projectProfile = "YP05";
+		boolean value = verifyCreateMultipleRevProject(projectProfile);
+		return value;
+	}
+	
+
+	
+	/**
+	 * This Method will verify whether the Multiple INVESMENT Project can be created
+	 * or NOT
+	 * 
+	 * 
+	 */
+	public boolean verifyCreateMultipleINVProject(String projectProfile) {
+		Service service = new Service();
+
+		for (int i = 0; i < 10; i++) {
+
+			Date date = new Date();
+			long time = date.getTime();
+			String projName = "Proj_" + time;
+
+			ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+					"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", projectProfile);
+
+			if (apiResponseHolder.getStatusCode() == 201) {
+				Gson gson = new Gson();
+				String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+				CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+
+				System.out.println(createProjectResponse);
+				System.out.println("Project ID for INVESTMENT Project is ---->" + createProjectResponse.getProject());
+				System.out.println("Project UUID is ---->" + createProjectResponse.getProjectUUID());
+
+				if (!createProjectResponse.getProject().equalsIgnoreCase(projName)) {
+					return false;
+				}
+
+			}
+
+		}
+
+		return true;
+	}
+
+	/**
+	 * This Method will verify whether the Multiple Overhead Project can be created
+	 * or NOT
+	 * 
+	 * 
+	 */
+	public boolean verifyCreateMultipleOVHProject(String projectProfile) {
+		Service service = new Service();
+
+		for (int i = 0; i < 10; i++) {
+
+			Date date = new Date();
+			long time = date.getTime();
+			String projName = "Proj_" + time;
+
+			ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+					"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", projectProfile);
+
+			if (apiResponseHolder.getStatusCode() == 201) {
+				Gson gson = new Gson();
+				String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+				CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+
+				System.out.println(createProjectResponse);
+				System.out.println("Project ID for OVERHEAD Project is ---->" + createProjectResponse.getProject());
+				System.out.println("Project UUID is ---->" + createProjectResponse.getProjectUUID());
+
+				if (!createProjectResponse.getProject().equalsIgnoreCase(projName)) {
+					return false;
+				}
+
+			}
+
+		}
+
+		return true;
+	}
+
+	/**
+	 * This Method will verify whether the Multiple Statistical Project can be
+	 * created or NOT
+	 * 
+	 * 
+	 */
+	public boolean verifyCreateMultipleStatProject(String projectProfile) {
+		Service service = new Service();
+
+		for (int i = 0; i < 10; i++) {
+
+			Date date = new Date();
+			long time = date.getTime();
+			String projName = "Proj_" + time;
+
+			ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+					"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", projectProfile);
+
+			if (apiResponseHolder.getStatusCode() == 201) {
+				Gson gson = new Gson();
+				String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+				CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+
+				System.out.println(createProjectResponse);
+				System.out.println("Project ID for STATISTICAL Project is ---->" + createProjectResponse.getProject());
+				System.out.println("Project UUID is ---->" + createProjectResponse.getProjectUUID());
+
+				if (!createProjectResponse.getProject().equalsIgnoreCase(projName)) {
+					return false;
+				}
+
+			}
+
+		}
+
+		return true;
+	}
+
+	/**
+	 * This Method will verify whether the Multiple Revenue Project can be created
+	 * or NOT
+	 * 
+	 * 
+	 */
+	public boolean verifyCreateMultipleRevProject(String projectProfile) {
+		Service service = new Service();
+
+		for (int i = 0; i < 10; i++) {
+
+			Date date = new Date();
+			long time = date.getTime();
+			String projName = "Proj_" + time;
+
+			ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+					"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", projectProfile);
+
+			if (apiResponseHolder.getStatusCode() == 201) {
+				Gson gson = new Gson();
+				String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+				CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+
+				System.out.println(createProjectResponse);
+				System.out.println("Project ID for Revenue Project is ---->" + createProjectResponse.getProject());
+				System.out.println("Project UUID is ---->" + createProjectResponse.getProjectUUID());
+
+				if (!createProjectResponse.getProject().equalsIgnoreCase(projName)) {
+					return false;
+				}
+
+			}
+
+		}
+
+		return true;
+	}
 
 }
