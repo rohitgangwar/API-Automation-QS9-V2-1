@@ -320,7 +320,6 @@ public class Service {
 						CreateWBSElementsResponse.class);
 
 				System.out.println(createWBSResponse);
-				System.out.println("Company Code ---->" + createWBSResponse.getCompanyCode());
 				System.out.println("Project UUID ---->" + createWBSResponse.getProjectUUID());
 				
 				List<CreateWBSElementsResponse> results = createWBSResponse.getTo_SubProjElement().getResults();
