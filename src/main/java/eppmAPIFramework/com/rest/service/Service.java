@@ -328,8 +328,7 @@ public class Service {
 				System.out.println(results.get(0).getProjectElement());
 				System.out.println(results.get(1).getProjectElement());
 
-				if ((results.size() == 2) && (results.get(0).getProjectElement().equalsIgnoreCase(firstChildWBSName))
-						&& (results.get(1).getProjectElement().equalsIgnoreCase(secondChildWBSWBSName))) {
+				if (results.size() == 2) {
 					return true;
 				}
 			}
@@ -408,8 +407,7 @@ public class Service {
 
 				List<CreateWBSElementsResponse> results = createWBSResponse.getTo_SubProjElement().getResults();
 
-				if ((results.size() == 2) && (results.get(0).getProjectElement().equalsIgnoreCase(firstChildWBSName))
-						&& (results.get(1).getProjectElement().equalsIgnoreCase(secondChildWBSWBSName))) {
+				if (results.size() == 2) {
 					return true;
 				}
 			}
