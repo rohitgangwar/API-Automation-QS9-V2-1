@@ -521,7 +521,7 @@ public class Service {
 
 			Date date = new Date();
 			long time = date.getTime();
-			String projName = "Proj_INV" + time;
+			String projName = "Proj_INV_" + time;
 
 			ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
 					"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", projectProfile);
@@ -559,7 +559,7 @@ public class Service {
 
 			Date date = new Date();
 			long time = date.getTime();
-			String projName = "Proj_OVH" + time;
+			String projName = "Proj_OVH_" + time;
 
 			ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
 					"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", projectProfile);
@@ -597,7 +597,7 @@ public class Service {
 
 			Date date = new Date();
 			long time = date.getTime();
-			String projName = "Proj_STAT" + time;
+			String projName = "Proj_STAT_" + time;
 
 			ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
 					"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", projectProfile);
@@ -635,7 +635,7 @@ public class Service {
 
 			Date date = new Date();
 			long time = date.getTime();
-			String projName = "Proj_REV" + time;
+			String projName = "Proj_REV_" + time;
 
 			ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
 					"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", projectProfile);
