@@ -339,7 +339,7 @@ public class Service {
 	}
 
 	/**
-	 * This method will Set the Project Status as RELEASED based on given
+	 * This method will Set the Project Status as Technically Completed based on given
 	 * ProjectUUID
 	 * 
 	 */
