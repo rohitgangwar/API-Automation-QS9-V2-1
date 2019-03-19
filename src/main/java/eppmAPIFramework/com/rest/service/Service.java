@@ -3,6 +3,7 @@ package eppmAPIFramework.com.rest.service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -342,6 +343,54 @@ public class Service {
 	 * ProjectUUID
 	 * 
 	 */
+	public ApiResponseHolder setProjectStatusTCHOAPI(CreateProjectRequest request, String projectUUID) {
+		String body = new GsonBuilder().create().toJson(request);
+		String csrf = getCsrfToken();
+		requestHeader.put("If-Match", "*");
+		ApiResponseHolder apiResponseHolder = RestAssuredClient
+				.doPost(TCHO_PROJECT_URL.replace("{GUID}", projectUUID), body, getCsrfToken(), requestHeader);
+		requestHeader.remove("If-Match");
+		return apiResponseHolder;
+
+	}
+	
+	/**
+	 * This method will Set the Project Status as LOCKED based on given
+	 * ProjectUUID
+	 * 
+	 */
+	public ApiResponseHolder setProjectStatusLOCKEDAPI(CreateProjectRequest request, String projectUUID) {
+		String body = new GsonBuilder().create().toJson(request);
+		String csrf = getCsrfToken();
+		requestHeader.put("If-Match", "*");
+		ApiResponseHolder apiResponseHolder = RestAssuredClient
+				.doPost(LOCKED_PROJECT_URL.replace("{GUID}", projectUUID), body, getCsrfToken(), requestHeader);
+		requestHeader.remove("If-Match");
+		return apiResponseHolder;
+
+	}
+	
+	/**
+	 * This method will Set the Project Status as CLOSED based on given
+	 * ProjectUUID
+	 * 
+	 */
+	public ApiResponseHolder setProjectStatusCLOSEDAPI(CreateProjectRequest request, String projectUUID) {
+		String body = new GsonBuilder().create().toJson(request);
+		String csrf = getCsrfToken();
+		requestHeader.put("If-Match", "*");
+		ApiResponseHolder apiResponseHolder = RestAssuredClient
+				.doPost(CLOSED_PROJECT_URL.replace("{GUID}", projectUUID), body, getCsrfToken(), requestHeader);
+		requestHeader.remove("If-Match");
+		return apiResponseHolder;
+
+	}
+	
+	/**
+	 * This method will Set the Project Status as RELEASED based on given
+	 * ProjectUUID
+	 * 
+	 */
 	public ApiResponseHolder setProjectStatusReleasedAPI(CreateProjectRequest request, String projectUUID) {
 		String body = new GsonBuilder().create().toJson(request);
 		String csrf = getCsrfToken();
@@ -354,10 +403,10 @@ public class Service {
 	}
 
 	/**
-	 * This methods verifies whether the Project Status is Released or Not
+	 * This methods verifies Creation of WBS Hierarchy for Released Project
 	 * 
 	 */
-	public boolean verifyCreateHierarchyRELProj() {
+	public boolean verifyCreateHierarchyForRELProj() {
 		Service service = new Service();
 		Date date = new Date();
 		long time = date.getTime();
@@ -410,6 +459,185 @@ public class Service {
 				if (results.size() == 2) {
 					return true;
 				}
+			}
+
+		}
+
+		return false;
+
+	}
+	
+	/**
+	 * This methods verifies Creation of WBS Hierarchy for TCHO Project
+	 * 
+	 */
+	public boolean verifyCreateHierarchyForTCHOProj() {
+		Service service = new Service();
+		Date date = new Date();
+		long time = date.getTime();
+		String projName = "Proj_" + time;
+
+		String parentWBSName = "Test_" + time + "_PJT1";
+		String firstChildWBSName = "Test_" + time + "_1";
+		String secondChildWBSWBSName = "Test_" + time + "_2";
+
+		System.out.println("Project name was --->" + projName);
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2019-10-07T00:00:00", "2019-12-31T00:00:00", "YB600", "10101501", "YP03");
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+			String reqUUID = createProjectResponse.getProjectUUID();
+			CreateProjectRequest requestObj = new CreateProjectRequest();
+			ApiResponseHolder apiResponseHoldeNew = service.setProjectStatusReleasedAPI(requestObj, reqUUID);
+
+			if (!(apiResponseHoldeNew.getStatusCode() == 200)) {
+				return false;
+			}
+
+			ApiResponseHolder apiResponseHoldeTchoAPI = service.setProjectStatusTCHOAPI(requestObj, reqUUID);
+			if (!(apiResponseHoldeTchoAPI.getStatusCode() == 200)) {
+				return false;
+			}
+
+			List<CreateWBSElementsRequest> list = new ArrayList<CreateWBSElementsRequest>();
+			CreateWBSElementsRequest request1 = new CreateWBSElementsRequest(firstChildWBSName, "firstChildWBSName",
+					"750", "2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB600");
+			CreateWBSElementsRequest request2 = new CreateWBSElementsRequest(secondChildWBSWBSName,
+					"secondChildWBSWBSName", "760", "2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB600");
+			list.add(request1);
+			list.add(request2);
+
+			ApiResponseHolder apiResponseHolder5 = service.createWBSElementsAPI(parentWBSName, parentWBSName, "700",
+					"2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB600", list,
+					createProjectResponse.getProjectUUID());
+
+			if (apiResponseHolder5.getStatusCode() == 400) {
+				return true;
+			}
+
+		}
+
+		return false;
+
+	}
+	
+	/**
+	 * This methods verifies Creation of WBS Hierarchy for LOCKED Project
+	 * 
+	 */
+	public boolean verifyCreateHierarchyForLOCKEDProj() {
+		Service service = new Service();
+		Date date = new Date();
+		long time = date.getTime();
+		String projName = "Proj_" + time;
+
+		String parentWBSName = "Test_" + time + "_PJT1";
+		String firstChildWBSName = "Test_" + time + "_1";
+		String secondChildWBSWBSName = "Test_" + time + "_2";
+
+		System.out.println("Project name was --->" + projName);
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2019-10-07T00:00:00", "2019-12-31T00:00:00", "YB600", "10101501", "YP03");
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+			String reqUUID = createProjectResponse.getProjectUUID();
+			CreateProjectRequest requestObj = new CreateProjectRequest();
+			
+			ApiResponseHolder apiResponseHoldeNew = service.setProjectStatusReleasedAPI(requestObj, reqUUID);
+			if (!(apiResponseHoldeNew.getStatusCode() == 200)) {
+				return false;
+			}
+
+			ApiResponseHolder apiResponseHoldeTchoAPI = service.setProjectStatusLOCKEDAPI(requestObj, reqUUID);
+			if (!(apiResponseHoldeTchoAPI.getStatusCode() == 200)) {
+				return false;
+			}
+
+			List<CreateWBSElementsRequest> list = new ArrayList<CreateWBSElementsRequest>();
+			CreateWBSElementsRequest request1 = new CreateWBSElementsRequest(firstChildWBSName, "firstChildWBSName",
+					"750", "2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB600");
+			CreateWBSElementsRequest request2 = new CreateWBSElementsRequest(secondChildWBSWBSName,
+					"secondChildWBSWBSName", "760", "2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB600");
+			list.add(request1);
+			list.add(request2);
+
+			ApiResponseHolder apiResponseHolder5 = service.createWBSElementsAPI(parentWBSName, parentWBSName, "700",
+					"2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB600", list,
+					createProjectResponse.getProjectUUID());
+
+			if (apiResponseHolder5.getStatusCode() == 400) {
+				return true;
+			}
+
+		}
+
+		return false;
+
+	}
+	
+	/**
+	 * This methods verifies Creation of WBS Hierarchy for CLOSED Project
+	 * 
+	 */
+	public boolean verifyCreateHierarchyForCLOSEDProj() {
+		Service service = new Service();
+		Date date = new Date();
+		long time = date.getTime();
+		String projName = "Proj_" + time;
+
+		String parentWBSName = "Test_" + time + "_PJT1";
+		String firstChildWBSName = "Test_" + time + "_1";
+		String secondChildWBSWBSName = "Test_" + time + "_2";
+
+		System.out.println("Project name was --->" + projName);
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2019-10-07T00:00:00", "2019-12-31T00:00:00", "YB600", "10101501", "YP03");
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+			String reqUUID = createProjectResponse.getProjectUUID();
+			CreateProjectRequest requestObj = new CreateProjectRequest();
+			
+			ApiResponseHolder apiResponseHoldeNew = service.setProjectStatusReleasedAPI(requestObj, reqUUID);
+			if (!(apiResponseHoldeNew.getStatusCode() == 200)) {
+				return false;
+			}
+
+			ApiResponseHolder apiResponseHoldeTchoAPI = service.setProjectStatusTCHOAPI(requestObj, reqUUID);
+			if (!(apiResponseHoldeTchoAPI.getStatusCode() == 200)) {
+				return false;
+			}
+			
+			ApiResponseHolder apiResponseHoldeClosedAPI = service.setProjectStatusCLOSEDAPI(requestObj, reqUUID);
+			if (!(apiResponseHoldeClosedAPI.getStatusCode() == 200)) {
+				return false;
+			}
+
+			List<CreateWBSElementsRequest> list = new ArrayList<CreateWBSElementsRequest>();
+			CreateWBSElementsRequest request1 = new CreateWBSElementsRequest(firstChildWBSName, "firstChildWBSName",
+					"750", "2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB600");
+			CreateWBSElementsRequest request2 = new CreateWBSElementsRequest(secondChildWBSWBSName,
+					"secondChildWBSWBSName", "760", "2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB600");
+			list.add(request1);
+			list.add(request2);
+
+			ApiResponseHolder apiResponseHolder5 = service.createWBSElementsAPI(parentWBSName, parentWBSName, "700",
+					"2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB600", list,
+					createProjectResponse.getProjectUUID());
+
+			if (apiResponseHolder5.getStatusCode() == 400) {
+				return true;
 			}
 
 		}

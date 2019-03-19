@@ -29,8 +29,35 @@ public class CreateWBSHierarchyTest {
 	 * 
 	 */
 	@Test(priority = 2)
-	public void canCreateWBSHierarchyRELEASEDProj() {
-		Assert.assertTrue(service.verifyCreateHierarchyRELProj(), "WBS Hierarchy creation Failed for Released Project");
+	public void canCreateWBSHierarchyForRELProj() {
+		Assert.assertTrue(service.verifyCreateHierarchyForRELProj(), "WBS Hierarchy creation Failed for Released Project");
+	}
+	
+	/**
+	 * Assert to validate the Creation of Hierarchy for Project in TCHO Status
+	 * 
+	 */
+	@Test(priority = 3)
+	public void canCreateWBSHierarchyForTCHOProj() {
+		Assert.assertTrue(service.verifyCreateHierarchyForTCHOProj(), "WBS Hierarchy creation Failed for TCHO Project");
+	}
+	
+	/**
+	 * Assert to validate the Creation of Hierarchy for Project in LOCKED Status
+	 * 
+	 */
+	@Test(priority = 4)
+	public void canCreateWBSHierarchyForLOCKEDProj() {
+		Assert.assertTrue(service.verifyCreateHierarchyForLOCKEDProj(), "WBS Hierarchy creation Failed for LOCKED Project");
+	}
+	
+	/**
+	 * Assert to validate the Creation of Hierarchy for Project in CLOSED Status
+	 * 
+	 */
+	@Test(priority = 5)
+	public void canCreateWBSHierarchyForCLOSEDProj() {
+		Assert.assertTrue(service.verifyCreateHierarchyForCLOSEDProj(), "WBS Hierarchy creation Failed for CLOSED Project");
 	}
 
 }

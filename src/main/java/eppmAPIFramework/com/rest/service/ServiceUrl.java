@@ -34,5 +34,11 @@ public class ServiceUrl {
 	public final static String UPDATE_WBS_ELEMENT_ATTRIBUTES_URL = "https://cc2-715-api.wdf.sap.corp/sap/opu/odata/sap/API_ENTERPRISE_PROJECT_SRV/A_EnterpriseProjectElement(guid'{GUID}')";
 	public final static String DELETE_PROJECT_URL = "https://cc2-715-api.wdf.sap.corp/sap/opu/odata/sap/API_ENTERPRISE_PROJECT_SRV/A_EnterpriseProject(guid'{GUID}')";
 	public final static String RELEASE_PROJECT_URL = "https://cc2-715-api.wdf.sap.corp/sap/opu/odata/sap/API_ENTERPRISE_PROJECT_SRV/SetProcessingStatus?ProjectUUID=guid'{GUID}'&ProcessingStatus='10'";
+	public final static String TCHO_PROJECT_URL = "https://cc2-715-api.wdf.sap.corp/sap/opu/odata/sap/API_ENTERPRISE_PROJECT_SRV/SetProcessingStatus?ProjectUUID=guid'{GUID}'&ProcessingStatus='40'";
+	public final static String LOCKED_PROJECT_URL = "https://cc2-715-api.wdf.sap.corp/sap/opu/odata/sap/API_ENTERPRISE_PROJECT_SRV/SetProcessingStatus?ProjectUUID=guid'{GUID}'&ProcessingStatus='20'";
+	public final static String CLOSED_PROJECT_URL = "https://cc2-715-api.wdf.sap.corp/sap/opu/odata/sap/API_ENTERPRISE_PROJECT_SRV/SetProcessingStatus?ProjectUUID=guid'{GUID}'&ProcessingStatus='42'";
+
+
+
 
 }

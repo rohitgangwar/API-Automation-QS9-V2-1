@@ -12,6 +12,7 @@ public class ApiResponseHolder {
 	private String response;
 	private Integer statusCode;
 	private Map<String, String> responseHeaders;
+	
 
 	public String getResponse() {
 		return response;
