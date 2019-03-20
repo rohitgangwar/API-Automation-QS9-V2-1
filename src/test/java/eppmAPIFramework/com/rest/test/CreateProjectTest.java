@@ -58,44 +58,44 @@ public class CreateProjectTest {
 				"Create Project API Failed for Revenue Project. The Project ID in the Response does not match with the Project ID used to Create the Project");
 	}
 	
-	/**
-	 * Assert to Validate Creation of Multiple Investment Project
-	 * 
-	 */
-	@Test(priority=5)
-	public void canCreateMultipleInvestmentProject() {
-		Assert.assertTrue(service.verifyCreateMultipleInvestmentProject(),
-				"Create Project API Failed for Multiple Investment Project Creation. The Project ID in the Response does not match with the Project ID used to Create the Project");
-	}
+// 	/**
+// 	 * Assert to Validate Creation of Multiple Investment Project
+// 	 * 
+// 	 */
+// 	@Test(priority=5)
+// 	public void canCreateMultipleInvestmentProject() {
+// 		Assert.assertTrue(service.verifyCreateMultipleInvestmentProject(),
+// 				"Create Project API Failed for Multiple Investment Project Creation. The Project ID in the Response does not match with the Project ID used to Create the Project");
+// 	}
 	
-	/**
-	 * Assert to Validate Creation of Multiple Investment Project
-	 * 
-	 */
-	@Test(priority=6)
-	public void canCreateMultipleOverheadProject() {
-		Assert.assertTrue(service.verifyCreateMultipleOverheadProject(),
-				"Create Project API Failed for Multiple Overhead Project Creation. The Project ID in the Response does not match with the Project ID used to Create the Project");
-	}
+// 	/**
+// 	 * Assert to Validate Creation of Multiple Investment Project
+// 	 * 
+// 	 */
+// 	@Test(priority=6)
+// 	public void canCreateMultipleOverheadProject() {
+// 		Assert.assertTrue(service.verifyCreateMultipleOverheadProject(),
+// 				"Create Project API Failed for Multiple Overhead Project Creation. The Project ID in the Response does not match with the Project ID used to Create the Project");
+// 	}
 	
-	/**
-	 * Assert to Validate Creation of Multiple Statistical Project
-	 * 
-	 */
-	@Test(priority=7)
-	public void canCreateMultipleStatisticalProject() {
-		Assert.assertTrue(service.verifyCreateMultipleStatisticalProject(),
-				"Create Project API Failed for Multiple Statistical Project Creation. The Project ID in the Response does not match with the Project ID used to Create the Project");
-	}
+// 	/**
+// 	 * Assert to Validate Creation of Multiple Statistical Project
+// 	 * 
+// 	 */
+// 	@Test(priority=7)
+// 	public void canCreateMultipleStatisticalProject() {
+// 		Assert.assertTrue(service.verifyCreateMultipleStatisticalProject(),
+// 				"Create Project API Failed for Multiple Statistical Project Creation. The Project ID in the Response does not match with the Project ID used to Create the Project");
+// 	}
 	
-	/**
-	 * Assert to Validate Creation of Multiple Statistical Project
-	 * 
-	 */
-	@Test(priority=8)
-	public void canCreateMultipleRevenueProject() {
-		Assert.assertTrue(service.verifyCreateMultipleRevenueProject(),
-				"Create Project API Failed for Multiple Revenue Project Creation. The Project ID in the Response does not match with the Project ID used to Create the Project");
-	}
+// 	/**
+// 	 * Assert to Validate Creation of Multiple Statistical Project
+// 	 * 
+// 	 */
+// 	@Test(priority=8)
+// 	public void canCreateMultipleRevenueProject() {
+// 		Assert.assertTrue(service.verifyCreateMultipleRevenueProject(),
+// 				"Create Project API Failed for Multiple Revenue Project Creation. The Project ID in the Response does not match with the Project ID used to Create the Project");
+// 	}
 
 }
