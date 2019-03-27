@@ -252,10 +252,10 @@ public class Service {
 	}
 
 	/**
-	 * This method verifies if the Newly Created project Gets Deleted or not
+	 * This method verifies if the Newly Created project Gets Deleted or not for Investment Profile
 	 * 
 	 */
-	public boolean verifyDeleteProject() {
+	public boolean verifyDeleteInvestmentProject() {
 		Service service = new Service();
 		Date date = new Date();
 		long time = date.getTime();
@@ -263,6 +263,93 @@ public class Service {
 
 		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
 				"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", "YP02");
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+
+			String reqUUID = createProjectResponse.getProjectUUID();
+			ApiResponseHolder apiResponseHoldeNew = service.deleteProjectAPI(reqUUID);
+			if (apiResponseHoldeNew.getStatusCode() == 204) {
+				return true;
+			}
+		}
+
+		return false;
+
+	}
+	
+	/**
+	 * This method verifies if the Newly Created project Gets Deleted or not for Overhead Profile
+	 * 
+	 */
+	public boolean verifyDeleteOverheadProject() {
+		Service service = new Service();
+		Date date = new Date();
+		long time = date.getTime();
+		String projName = "Proj_" + time;
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", "YP03");
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+
+			String reqUUID = createProjectResponse.getProjectUUID();
+			ApiResponseHolder apiResponseHoldeNew = service.deleteProjectAPI(reqUUID);
+			if (apiResponseHoldeNew.getStatusCode() == 204) {
+				return true;
+			}
+		}
+
+		return false;
+
+	}
+	
+	/**
+	 * This method verifies if the Newly Created project Gets Deleted or not for Statistical Profile
+	 * 
+	 */
+	public boolean verifyDeleteStatisticalProject() {
+		Service service = new Service();
+		Date date = new Date();
+		long time = date.getTime();
+		String projName = "Proj_" + time;
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", "YP04");
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+
+			String reqUUID = createProjectResponse.getProjectUUID();
+			ApiResponseHolder apiResponseHoldeNew = service.deleteProjectAPI(reqUUID);
+			if (apiResponseHoldeNew.getStatusCode() == 204) {
+				return true;
+			}
+		}
+
+		return false;
+
+	}
+	
+	/**
+	 * This method verifies if the Newly Created project Gets Deleted or not for Revenue Profile
+	 * 
+	 */
+	public boolean verifyDeleteRevenueProject() {
+		Service service = new Service();
+		Date date = new Date();
+		long time = date.getTime();
+		String projName = "Proj_" + time;
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", "YP05");
 
 		if (apiResponseHolder.getStatusCode() == 201) {
 			Gson gson = new Gson();
