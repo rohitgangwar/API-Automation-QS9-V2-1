@@ -5,7 +5,7 @@
     <classes>
       <class name="eppmAPIFramework.com.rest.test.CreateWBSHierarchyTest">
         <methods>
-          <include name="canCreateWBSHierarchy"/>
+          <include name="canCreateWBSHierarchyForTCHOProj"/>
         </methods>
       </class> <!-- eppmAPIFramework.com.rest.test.CreateWBSHierarchyTest -->
     </classes>

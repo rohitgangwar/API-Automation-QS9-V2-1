@@ -1,35 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" ignored="0" total="4" passed="4">
+<testng-results skipped="0" failed="0" ignored="0" total="2" passed="2">
   <reporter-output>
   </reporter-output>
-  <suite name="EPPMAPITestSuite" duration-ms="34299" started-at="2018-12-24T04:57:21Z" finished-at="2018-12-24T04:57:55Z">
+  <suite name="EPPMAPITestSuite" duration-ms="139464" started-at="2019-03-19T21:26:10Z" finished-at="2019-03-19T21:28:29Z">
     <groups>
     </groups>
-    <test name="APITests" duration-ms="34299" started-at="2018-12-24T04:57:21Z" finished-at="2018-12-24T04:57:55Z">
+    <test name="APITests" duration-ms="139464" started-at="2019-03-19T21:26:10Z" finished-at="2019-03-19T21:28:29Z">
       <class name="eppmAPIFramework.com.rest.test.DeleteProjectTest">
-        <test-method status="PASS" signature="canDeleteProject()[pri:0, instance:eppmAPIFramework.com.rest.test.DeleteProjectTest@29ee9faa]" name="canDeleteProject" duration-ms="5525" started-at="2018-12-24T04:57:50Z" finished-at="2018-12-24T04:57:55Z">
+        <test-method status="PASS" signature="canDeleteProject()[pri:0, instance:eppmAPIFramework.com.rest.test.DeleteProjectTest@39aeed2f]" name="canDeleteProject" duration-ms="37517" started-at="2019-03-19T21:27:52Z" finished-at="2019-03-19T21:28:29Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- canDeleteProject -->
       </class> <!-- eppmAPIFramework.com.rest.test.DeleteProjectTest -->
       <class name="eppmAPIFramework.com.rest.test.UpdateWBSElementTest">
-        <test-method status="PASS" signature="canUpdateWBSElementAttributeDescription()[pri:0, instance:eppmAPIFramework.com.rest.test.UpdateWBSElementTest@6767c1fc]" name="canUpdateWBSElementAttributeDescription" duration-ms="2202" started-at="2018-12-24T04:57:48Z" finished-at="2018-12-24T04:57:50Z">
+        <test-method status="PASS" signature="canUpdateWBSElementAttributeDescription()[pri:0, instance:eppmAPIFramework.com.rest.test.UpdateWBSElementTest@4cc0edeb]" name="canUpdateWBSElementAttributeDescription" duration-ms="101910" started-at="2019-03-19T21:26:10Z" finished-at="2019-03-19T21:27:52Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- canUpdateWBSElementAttributeDescription -->
       </class> <!-- eppmAPIFramework.com.rest.test.UpdateWBSElementTest -->
-      <class name="eppmAPIFramework.com.rest.test.CreateWBSHierarchyTest">
-        <test-method status="PASS" signature="canCreateWBSHierarchy()[pri:0, instance:eppmAPIFramework.com.rest.test.CreateWBSHierarchyTest@4678c730]" name="canCreateWBSHierarchy" duration-ms="5643" started-at="2018-12-24T04:57:42Z" finished-at="2018-12-24T04:57:48Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- canCreateWBSHierarchy -->
-      </class> <!-- eppmAPIFramework.com.rest.test.CreateWBSHierarchyTest -->
-      <class name="eppmAPIFramework.com.rest.test.CreateProjectTest">
-        <test-method status="PASS" signature="canCreateProject()[pri:0, instance:eppmAPIFramework.com.rest.test.CreateProjectTest@5c7fa833]" name="canCreateProject" duration-ms="20884" started-at="2018-12-24T04:57:21Z" finished-at="2018-12-24T04:57:42Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- canCreateProject -->
-      </class> <!-- eppmAPIFramework.com.rest.test.CreateProjectTest -->
     </test> <!-- APITests -->
   </suite> <!-- EPPMAPITestSuite -->
 </testng-results>
