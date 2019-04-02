@@ -974,5 +974,288 @@ public class Service {
 
 		return true;
 	}
+	
+//	/**
+//	 * This methods verifies Update of WBS Hierarchy for Released Project
+//	 * 
+//	 */
+//	public boolean verifyUpdateHierarchyForRELProj() {
+//		Service service = new Service();
+//		Date date = new Date();
+//		long time = date.getTime();
+//		String projName = "Proj_" + time;
+//		
+//		String newProjDesc = "ProjDesc" + time;
+//
+//		String parentWBSName = "Test_" + time + "_PJT1";
+//		String firstChildWBSName = "Test_" + time + "_1";
+//		String secondChildWBSWBSName = "Test_" + time + "_2";
+//
+//		System.out.println("Project name was --->" + projName);
+//
+//		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+//				"2019-10-07T00:00:00", "2019-12-31T00:00:00", "YB600", "10101501", "YP03");
+//
+//		if (apiResponseHolder.getStatusCode() == 201) {
+//			Gson gson = new Gson();
+//			String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+//
+//			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+//
+//			String reqUUID = createProjectResponse.getProjectUUID();
+//
+//			CreateProjectRequest requestObj = new CreateProjectRequest();
+//
+//			ApiResponseHolder apiResponseHoldeNew = service.setProjectStatusReleasedAPI(requestObj, reqUUID);
+//
+//			if (!(apiResponseHoldeNew.getStatusCode() == 200)) {
+//				return false;
+//			}
+//
+//			List<CreateWBSElementsRequest> list = new ArrayList<CreateWBSElementsRequest>();
+//			CreateWBSElementsRequest request1 = new CreateWBSElementsRequest(firstChildWBSName, "firstChildWBSName",
+//					"750", "2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB600");
+//			CreateWBSElementsRequest request2 = new CreateWBSElementsRequest(secondChildWBSWBSName,
+//					"secondChildWBSWBSName", "760", "2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB600");
+//			list.add(request1);
+//			list.add(request2);
+//
+//			ApiResponseHolder apiResponseHolder5 = service.createWBSElementsAPI(parentWBSName, parentWBSName, "700",
+//					"2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB600", list,
+//					createProjectResponse.getProjectUUID());
+//
+//			if (apiResponseHolder5.getStatusCode() == 201) {
+//				String newResponse1 = sanitizeOutput(apiResponseHolder5.getResponse());
+//				CreateWBSElementsResponse createWBSResponse = gson.fromJson(newResponse1,
+//						CreateWBSElementsResponse.class);
+//
+//				CreateWBSElementsRequest request = new CreateWBSElementsRequest();
+//				List<CreateWBSElementsResponse> results = createWBSResponse.getTo_SubProjElement().getResults();
+//				createWBSResponse.getTo_SubProjElement().getResults().get(0).setProjectElementDescription(newProjDesc);
+//				ApiResponseHolder apiResponseHolder6 = service.updateWBSElementAttributesAPI(request,
+//						"createWBSResponse.getTo_SubProjElement().getResults().get(0).getProjectElementUUID()");
+//
+//
+//				if (apiResponseHolder6.getStatusCode() == 204) {
+//					return true;
+//				}
+//			}
+//
+//		}
+//
+//		return false;
+//
+//	}
+	
+	/**
+	 * This Method will verify whether the Released Project can be Deleted or NOT
+	 * 
+	 * 
+	 */
+	public boolean verifyDeleteRELProject() {
+		Service service = new Service();
+
+		Date date = new Date();
+		long time = date.getTime();
+		String projName = "Proj_" + time;
+		String projectProfile = "YP03";
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", projectProfile);
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+
+			System.out.println(createProjectResponse);
+
+			String reqUUID = createProjectResponse.getProjectUUID();
+
+			if (!createProjectResponse.getProject().equalsIgnoreCase(projName)) {
+				return false;
+			}
+
+			CreateProjectRequest requestObj = new CreateProjectRequest();
+
+			ApiResponseHolder apiResponseHoldeNew = service.setProjectStatusReleasedAPI(requestObj, reqUUID);
+
+			if (!(apiResponseHoldeNew.getStatusCode() == 200)) {
+				return false;
+			}
+
+			ApiResponseHolder apiResponseHoldeNew2 = service.deleteProjectAPI(reqUUID);
+
+			if (!(apiResponseHoldeNew2.getStatusCode() == 400)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+	
+	/**
+	 * This Method will verify whether the TCHO Project can be Deleted or NOT
+	 * 
+	 * 
+	 */
+	public boolean verifyDeleteTCHOProject() {
+		Service service = new Service();
+
+		Date date = new Date();
+		long time = date.getTime();
+		String projName = "Proj_" + time;
+		String projectProfile = "YP03";
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", projectProfile);
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+
+			System.out.println(createProjectResponse);
+
+			String reqUUID = createProjectResponse.getProjectUUID();
+
+			if (!createProjectResponse.getProject().equalsIgnoreCase(projName)) {
+				return false;
+			}
+
+			CreateProjectRequest requestObj = new CreateProjectRequest();
+
+			ApiResponseHolder apiResponseHoldeNew = service.setProjectStatusReleasedAPI(requestObj, reqUUID);
+
+			if (!(apiResponseHoldeNew.getStatusCode() == 200)) {
+				return false;
+			}
+
+			ApiResponseHolder apiResponseHoldeTchoAPI = service.setProjectStatusTCHOAPI(requestObj, reqUUID);
+			if (!(apiResponseHoldeTchoAPI.getStatusCode() == 200)) {
+				return false;
+			}
+
+			ApiResponseHolder apiResponseHoldeNew2 = service.deleteProjectAPI(reqUUID);
+
+			if (!(apiResponseHoldeNew2.getStatusCode() == 400)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+	
+	/**
+	 * This Method will verify whether the Locked Project can be Deleted or NOT
+	 * 
+	 * 
+	 */
+	public boolean verifyDeleteLockedProject() {
+		Service service = new Service();
+
+		Date date = new Date();
+		long time = date.getTime();
+		String projName = "Proj_" + time;
+		String projectProfile = "YP03";
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", projectProfile);
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+
+			System.out.println(createProjectResponse);
+
+			String reqUUID = createProjectResponse.getProjectUUID();
+
+			if (!createProjectResponse.getProject().equalsIgnoreCase(projName)) {
+				return false;
+			}
+
+			CreateProjectRequest requestObj = new CreateProjectRequest();
+
+			ApiResponseHolder apiResponseHoldeNew = service.setProjectStatusReleasedAPI(requestObj, reqUUID);
+
+			if (!(apiResponseHoldeNew.getStatusCode() == 200)) {
+				return false;
+			}
+
+			ApiResponseHolder apiResponseHoldeLockedAPI = service.setProjectStatusLOCKEDAPI(requestObj, reqUUID);
+			if (!(apiResponseHoldeLockedAPI.getStatusCode() == 200)) {
+				return false;
+			}
+
+			ApiResponseHolder apiResponseHoldeNew2 = service.deleteProjectAPI(reqUUID);
+
+			if (!(apiResponseHoldeNew2.getStatusCode() == 400)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+	
+	/**
+	 * This Method will verify whether the CLOSED Project can be Deleted or NOT
+	 * 
+	 * 
+	 */
+	public boolean verifyDeleteClosedProject() {
+		Service service = new Service();
+
+		Date date = new Date();
+		long time = date.getTime();
+		String projName = "Proj_" + time;
+		String projectProfile = "YP03";
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", projectProfile);
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+
+			System.out.println(createProjectResponse);
+
+			String reqUUID = createProjectResponse.getProjectUUID();
+
+			if (!createProjectResponse.getProject().equalsIgnoreCase(projName)) {
+				return false;
+			}
+
+			CreateProjectRequest requestObj = new CreateProjectRequest();
+
+			ApiResponseHolder apiResponseHoldeNew = service.setProjectStatusReleasedAPI(requestObj, reqUUID);
+
+			if (!(apiResponseHoldeNew.getStatusCode() == 200)) {
+				return false;
+			}
+
+			ApiResponseHolder apiResponseHoldeTchoAPI = service.setProjectStatusTCHOAPI(requestObj, reqUUID);
+			if (!(apiResponseHoldeTchoAPI.getStatusCode() == 200)) {
+				return false;
+			}
+			
+			ApiResponseHolder apiResponseHoldeClosedAPI = service.setProjectStatusCLOSEDAPI(requestObj, reqUUID);
+			if (!(apiResponseHoldeClosedAPI.getStatusCode() == 200)) {
+				return false;
+			}
+
+			ApiResponseHolder apiResponseHoldeNew2 = service.deleteProjectAPI(reqUUID);
+
+			if (!(apiResponseHoldeNew2.getStatusCode() == 400)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+	
+	
+
 
 }

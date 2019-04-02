@@ -48,6 +48,42 @@ public class DeleteProjectTest {
 	public void canDeleteRevenueProject() {
 		Assert.assertTrue(service.verifyDeleteRevenueProject(), "Delete Project API Failed for Revenue Project");
 	}
+	
+	/**
+	 * Assert to Validate Released Project Deletion Scenario
+	 * 
+	 */
+	@Test(priority=5)
+	public void canDeleteRELEASEDProject() {
+		Assert.assertTrue(service.verifyDeleteRELProject(), "Delete Project API Failed for Released Project");
+	}
+	
+	/**
+	 * Assert to Validate TCHO Project Deletion Scenario
+	 * 
+	 */
+	@Test(priority=6)
+	public void canDeleteTCHOProject() {
+		Assert.assertTrue(service.verifyDeleteTCHOProject(), "Delete Project API Failed for TCHO Project");
+	}
+	
+	/**
+	 * Assert to Validate LOCKED Project Deletion Scenario
+	 * 
+	 */
+	@Test(priority=7)
+	public void canDeleteLOCKEDProject() {
+		Assert.assertTrue(service.verifyDeleteLockedProject(), "Delete Project API Failed for LOCKED Project");
+	}
+	
+	/**
+	 * Assert to Validate CLOSED Project Deletion Scenario
+	 * 
+	 */
+	@Test(priority=8)
+	public void canDeleteCLOSEDProject() {
+		Assert.assertTrue(service.verifyDeleteClosedProject(), "Delete Project API Failed for CLOSED Project");
+	}
 
 	
 }

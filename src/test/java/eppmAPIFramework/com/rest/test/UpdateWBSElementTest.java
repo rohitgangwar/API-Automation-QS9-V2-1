@@ -17,10 +17,20 @@ public class UpdateWBSElementTest {
 	 * Assert to validate Update Description for WBS
 	 * 
 	 */
-	@Test
+	@Test(priority=1)
 	public void canUpdateWBSElementAttributeDescription() {
 		Assert.assertTrue(service.verifyUpdateWBSAttributeDescription(),
 				"Not able to update the WBS Element Attribute Description Value");
 	}
+	
+//	/**
+//	 * Assert to validate Update Description of WBS Hierarchy for Released PST
+//	 * 
+//	 */
+//	@Test(priority=2)
+//	public void canUpdateWBSElementAttributeRELProject() {
+//		Assert.assertTrue(service.verifyUpdateHierarchyForRELProj(),
+//				"Not able to update the WBS Element Attribute Description Value for RELEASED Project");
+//	}
 
 }
