@@ -38,15 +38,15 @@ public class Service {
 
 	private static String csrfToken = null;
 
-	/**
-	 * This method contains the AUTHORIZATION Key for CCF/715 SYSTEM Post call by API
-	 * 
-	 */
-	static Map<String, String> requestHeader = new HashMap();
-	{
-		requestHeader.put("Authorization", "Basic Q0NmX0NPTU1fMDMwOTpXZWxjb21lMSE=");
-
-	}
+//	/**
+//	 * This method contains the AUTHORIZATION Key for CCF/715 SYSTEM Post call by API
+//	 * 
+//	 */
+//	static Map<String, String> requestHeader = new HashMap();
+//	{
+//		requestHeader.put("Authorization", "Basic Q0NmX0NPTU1fMDMwOTpXZWxjb21lMSE=");
+//
+//	}
 	
 //	/**
 //	 * This method contains the AUTHORIZATION Key for CC2/715 SYSTEM Post call by API
@@ -57,6 +57,16 @@ public class Service {
 //		requestHeader.put("Authorization", "Basic Q0MyX0NPTU1fMDMwODpXZWxjb21lMSE=");
 //
 //	}
+	
+	/**
+	 * This method contains the AUTHORIZATION Key for QS9/711 SYSTEM Post call by API
+	 * 
+	 */
+	static Map<String, String> requestHeader = new HashMap();
+	{
+		requestHeader.put("Authorization", "Basic UVM5X0NPTU1fMDMwOTpXZWxjb21lMSE=");
+
+	}
 
 	/**
 	 * This method is used to Fetch the CSRF Token Value & Also updates the cookie
@@ -221,6 +231,7 @@ public class Service {
 	/**
 	 * This method verifies whether the API can update the Element Description Value
 	 * 
+	 * UUID for ccf/715 :- 9418820a-c0a9-1ee9-9a81-69bc0f6720b1
 	 */
 	public boolean verifyUpdateWBSAttributeDescription() {
 		Service service = new Service();
@@ -230,7 +241,7 @@ public class Service {
 		CreateWBSElementsRequest request = new CreateWBSElementsRequest();
 		request.setProjectElementDescription(projDesc);
 		ApiResponseHolder apiResponseHolder = service.updateWBSElementAttributesAPI(request,
-				"9418820a-c0a9-1ee9-9a81-69bc0f6720b1");
+				"0894ef45-7d01-1ee9-a18a-e618eb3dec6f");
 
 		return apiResponseHolder.getStatusCode() == 204;
 
