@@ -1266,7 +1266,213 @@ public class Service {
 		return true;
 	}
 	
+	/**
+	 * This sample calls for Create Project API
+	 * for Incorrect Project Profile Scenario
+	 * 
+	 */
+	public boolean validateIncorrectProjProferror() {
+		String projectProfile = "YP88";
+		boolean value = verifyIncorrectProjProfError(projectProfile);
+		return value;
+	}
 	
+	/**
+	 * This Method will verify if it gives the correct error on 
+	 * creation of project for Invalid Project Profiles
+	 * 
+	 */
+	public boolean verifyIncorrectProjProfError(String projectProfile) {
+		Service service = new Service();
+		Date date = new Date();
+		long time = date.getTime();
+		String projName = "Proj_" + time;
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", projectProfile);
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			return false;
+		} else {
+			Gson gson = new Gson();
+			String errorText = getErrorText(apiResponseHolder);
+			if (errorText.toLowerCase().equals("enter a valid value for the project profile.")) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	/**
+	 * This Method returns the Error value Text 
+	 * for Negative Scenarios
+	 * 
+	 */
+	public String getErrorText(ApiResponseHolder responseHolder) {
+		Gson gson = new Gson();
+		Map<String, Object> data = gson.fromJson(responseHolder.getResponse(), Map.class);
+		String errorData = gson.toJson(data.get("error"));
+		Map<String, Object> data1 = gson.fromJson(errorData, Map.class);
+		String message = gson.toJson(data1.get("message"));
+		Map<String, Object> data2 = gson.fromJson(message, Map.class);
+		String value = (String) data2.get("value");
+
+		return value;
+
+	}
+	
+	/**
+	 * This sample calls for Create Project API
+	 * for Invalid Profit Center Scenario
+	 * 
+	 */
+	public boolean validateInvalidProfitCenterError() {
+		String profitCenter = "YB6000";
+		boolean value = verifyIncorrectProfitCenterError(profitCenter);
+		return value;
+	}
+	
+	/**
+	 * This Method will verify if it gives the correct error on 
+	 * creation of project for Invalid Profit Center
+	 * 
+	 */
+	public boolean verifyIncorrectProfitCenterError(String profitCenter) {
+		Service service = new Service();
+		Date date = new Date();
+		long time = date.getTime();
+		String projName = "Proj_" + time;
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2018-10-07T00:00:00", "2018-12-31T00:00:00", profitCenter, "10101501", "YP03");
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			return false;
+		} else {
+			Gson gson = new Gson();
+			String errorText = getErrorText(apiResponseHolder);
+			if (errorText.toLowerCase().equals("profit center yb6000 does not exist")) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	/**
+	 * This sample calls for Create Project API
+	 * for Invalid Project ID Scenario
+	 * 
+	 */
+	public boolean validateInvalidProjectIDError() {
+		String projName = "Proj_kkr_12222000000000000000000000000000000000000000";
+		boolean value = verifyIncorrectProjectIDError(projName);
+		return value;
+	}
+	
+	/**
+	 * This Method will verify if it gives the correct error on 
+	 * creation of project for Invalid Project ID
+	 * 
+	 */
+	public boolean verifyIncorrectProjectIDError(String projName) {
+		Service service = new Service();
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", "YP03");
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			return false;
+		} else {
+			Gson gson = new Gson();
+			String errorText = getErrorText(apiResponseHolder);
+			if (errorText.toLowerCase()
+					.contains("has invalid value 'proj_kkr_12222000000000000000000000000000000000000000'")
+					&& errorText.toLowerCase().contains("property 'project' at offset")) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	/**
+	 * This sample calls for Create Project API
+	 * for Invalid Dates Scenario
+	 * 
+	 */
+	public boolean validateInvalidDateError() {
+		String startDate = "2018-10-07T0000:00:0000";
+		boolean value = verifyIncorrectDateError(startDate);
+		return value;
+	}
+	
+	/**
+	 * This Method will verify if it gives the correct error on 
+	 * creation of project for Invalid Dates
+	 * 
+	 */
+	public boolean verifyIncorrectDateError(String startDate) {
+		Service service = new Service();
+		Date date = new Date();
+		long time = date.getTime();
+		String projName = "Proj_" + time;
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description", startDate,
+				"2018-12-31T00:00:00", "YB600", "10101501", "YP03");
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			return false;
+		} else {
+			Gson gson = new Gson();
+			String errorText = getErrorText(apiResponseHolder);
+			if (errorText.toLowerCase().contains("conversion error for property 'projectstartdate'")) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+	
+	/**
+	 * This sample calls for Create Project API
+	 * for Invalid Responsible Cost Center Scenario
+	 * 
+	 */
+	public boolean validateInvalidRespCCError() {
+		String respCostCenter = "1010150100000";
+		boolean value = verifyIncorrectRespCCError(respCostCenter);
+		return value;
+	}
+	
+	/**
+	 * This Method will verify if it gives the correct error on 
+	 * creation of project for Invalid Responsible Cost Center
+	 * 
+	 */
+	public boolean verifyIncorrectRespCCError(String respCostCenter) {
+		Service service = new Service();
+		Date date = new Date();
+		long time = date.getTime();
+		String projName = "Proj_" + time;
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", respCostCenter, "YP03");
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			return false;
+		} else {
+			Gson gson = new Gson();
+			String errorText = getErrorText(apiResponseHolder);
+			if (errorText.toLowerCase().contains("property 'responsiblecostcenter' at offset")
+					&& errorText.toLowerCase().contains("has invalid value '1010150100000'")) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 
 }
