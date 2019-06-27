@@ -613,10 +613,16 @@ public class Service {
 					"2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB600", list,
 					createProjectResponse.getProjectUUID());
 
-			if (apiResponseHolder5.getStatusCode() == 400) {
-				return true;
+			if (apiResponseHolder5.getStatusCode() == 201) {
+				return false;
 			}
 
+			else {
+				String errorText = getErrorText(apiResponseHolder5);
+				if (errorText.toLowerCase().equals("project status prevents work packages from being created.")) {
+					return true;
+				}
+			}
 		}
 
 		return false;
@@ -648,7 +654,7 @@ public class Service {
 			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
 			String reqUUID = createProjectResponse.getProjectUUID();
 			CreateProjectRequest requestObj = new CreateProjectRequest();
-			
+
 			ApiResponseHolder apiResponseHoldeNew = service.setProjectStatusReleasedAPI(requestObj, reqUUID);
 			if (!(apiResponseHoldeNew.getStatusCode() == 200)) {
 				return false;
@@ -671,10 +677,16 @@ public class Service {
 					"2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB600", list,
 					createProjectResponse.getProjectUUID());
 
-			if (apiResponseHolder5.getStatusCode() == 400) {
-				return true;
+			if (apiResponseHolder5.getStatusCode() == 201) {
+				return false;
 			}
 
+			else {
+				String errorText = getErrorText(apiResponseHolder5);
+				if (errorText.toLowerCase().equals("project status prevents work packages from being created.")) {
+					return true;
+				}
+			}
 		}
 
 		return false;
@@ -734,10 +746,16 @@ public class Service {
 					"2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB600", list,
 					createProjectResponse.getProjectUUID());
 
-			if (apiResponseHolder5.getStatusCode() == 400) {
-				return true;
+			if (apiResponseHolder5.getStatusCode() == 201) {
+				return false;
 			}
 
+			else {
+				String errorText = getErrorText(apiResponseHolder5);
+				if (errorText.toLowerCase().equals("project status prevents work packages from being created.")) {
+					return true;
+				}
+			}
 		}
 
 		return false;
