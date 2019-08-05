@@ -48,13 +48,23 @@ public class Service {
 
 // 	}
 	
+// 	/**
+// 	 * This method contains the AUTHORIZATION Key for CC2/715 SYSTEM Post call by API
+// 	 * 
+// 	 */
+// 	static Map<String, String> requestHeader = new HashMap();
+// 	{
+// 		requestHeader.put("Authorization", "Basic Q0MyX0NPTU1fMDMwOTpXZWxjb21lMSE=");
+
+// 	}
+	
 	/**
-	 * This method contains the AUTHORIZATION Key for CC2/715 SYSTEM Post call by API
+	 * This method contains the AUTHORIZATION Key for QS9/711 SYSTEM Post call by API
 	 * 
 	 */
 	static Map<String, String> requestHeader = new HashMap();
 	{
-		requestHeader.put("Authorization", "Basic Q0MyX0NPTU1fMDMwOTpXZWxjb21lMSE=");
+		requestHeader.put("Authorization", "Basic UVM5X0NPTU1fMDMwOTpXZWxjb21lMSE=");
 
 	}
 
