@@ -1914,7 +1914,7 @@ public class Service {
 	 * 
 	 */
 	public boolean verifyGetBFPST() {
-		String projectUUID = "506b4bc3-44e0-1eda-a3bc-7ca5cfc7dbdd";
+		String projectUUID = "0894ef45-8f01-1eda-a4ba-4f851d052078";
 
 		Service service = new Service();
 		ApiResponseHolder apiResponseHolder = service.getPSTBlockFunctionsAPI(projectUUID);
@@ -1947,7 +1947,7 @@ public class Service {
 	 * 
 	 */
 	public boolean verifyGetBFReleasedPST() {
-		String projectUUID = "506b4bc3-4648-1eea-a3bd-a0fd5b212d0a";
+		String projectUUID = "0894ef45-7d01-1eda-a4ba-8e82425ceefa";
 
 		Service service = new Service();
 		ApiResponseHolder apiResponseHolder = service.getPSTBlockFunctionsAPI(projectUUID);
@@ -1980,7 +1980,7 @@ public class Service {
 	 * 
 	 */
 	public boolean verifyGetBFDeletedPST() {
-		String projectUUID = "98be94f7-bf51-1eda-9dbb-2baf9c14c4af";
+		String projectUUID = "0894ef45-8f01-1eda-a4ba-9c483e47e574";
 
 		Service service = new Service();
 		ApiResponseHolder apiResponseHolder = service.getPSTBlockFunctionsAPI(projectUUID);
