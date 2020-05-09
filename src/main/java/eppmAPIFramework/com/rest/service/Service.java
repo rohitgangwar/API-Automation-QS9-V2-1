@@ -23,8 +23,12 @@ import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 
 import eppmAPIFramework.beans.ApiResponseHolder;
+import eppmAPIFramework.com.rest.requestpojo.CreateBlockFunctionWBSRequest;
+import eppmAPIFramework.com.rest.requestpojo.CreateBlockFunctionsPSTRequest;
 import eppmAPIFramework.com.rest.requestpojo.CreateProjectRequest;
 import eppmAPIFramework.com.rest.requestpojo.CreateWBSElementsRequest;
+import eppmAPIFramework.com.rest.responsepojo.CreateBlockFunctionWBSResponse;
+import eppmAPIFramework.com.rest.responsepojo.CreateBlockFunctionsPSTResponse;
 import eppmAPIFramework.com.rest.responsepojo.CreateProjectResponse;
 import eppmAPIFramework.com.rest.responsepojo.CreateWBSElementsResponse;
 
@@ -1489,6 +1493,646 @@ public class Service {
 		}
 
 		return false;
+	}
+	
+	/**
+	 * This Method Verifies whether the WBS Hierarchy is Successfully Created
+	 * 
+	 */
+	public boolean verifySamplesample() {
+		Service service = new Service();
+		Date date = new Date();
+		long time = date.getTime();
+
+		String projName = "Proj_" + time;
+		String parentWBSName = "Test_" + time + "_PJT1";
+		String firstChildWBSName = "Test_" + time + "_1";
+		String secondChildWBSWBSName = "Test_" + time + "_2";
+		
+		System.out.println("Project name was --->" + projName);
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2019-10-07T00:00:00", "2019-12-31T00:00:00", "YB600", "10101501", "YP05");
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+
+			List<CreateWBSElementsRequest> list = new ArrayList<CreateWBSElementsRequest>();
+			CreateWBSElementsRequest request1 = new CreateWBSElementsRequest(firstChildWBSName, "firstChildWBSName",
+					"750", "2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB700");
+			CreateWBSElementsRequest request2 = new CreateWBSElementsRequest(secondChildWBSWBSName,
+					"secondChildWBSWBSName", "760", "2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB700");
+			list.add(request1);
+			list.add(request2);
+
+			apiResponseHolder = service.createWBSElementsAPI(parentWBSName, parentWBSName, "700", "2019-10-07T00:00:00",
+					"2019-12-31T00:00:00", "10101501", "YB700", list, createProjectResponse.getProjectUUID());
+
+			if (apiResponseHolder.getStatusCode() == 201) {
+				String newResponse1 = sanitizeOutput(apiResponseHolder.getResponse());
+				CreateWBSElementsResponse createWBSResponse = gson.fromJson(newResponse1,
+						CreateWBSElementsResponse.class);
+
+				System.out.println(createWBSResponse);
+				System.out.println("Project UUID ---->" + createWBSResponse.getProjectUUID());
+				
+				List<CreateWBSElementsResponse> results = createWBSResponse.getTo_SubProjElement().getResults();
+				
+				System.out.println("result--->" + results);
+				System.out.println(results.get(0).getProjectElement());
+				System.out.println(results.get(1).getProjectElement());
+
+				if (results.size() == 2 && results.get(1).getProfitCenter().equals("YB600") && results.get(0).getProfitCenter().equals("YB600")) {
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
+	
+	/**
+	 * This Method is CREATE API for BLOCK FUNCTION
+	 * for PST level
+	 * 
+	 */
+	public ApiResponseHolder createBlockFunctionForPSTAPI(String projectUUID, boolean EntProjTimeRecgIsBlkd, boolean EntProjStaffExpensePostgIsBlkd,
+			boolean EntProjServicePostingIsBlkd, boolean EntProjOtherExpensePostgIsBlkd, boolean EntProjPurchasingIsBlkd) {
+
+		CreateBlockFunctionsPSTRequest blockFunctionObject = new CreateBlockFunctionsPSTRequest();
+
+		blockFunctionObject.setProjectUUID(projectUUID);
+		blockFunctionObject.setEntProjServicePostingIsBlkd(EntProjServicePostingIsBlkd);
+		blockFunctionObject.setEntProjTimeRecgIsBlkd(EntProjTimeRecgIsBlkd);
+		blockFunctionObject.setEntProjStaffExpensePostgIsBlkd(EntProjStaffExpensePostgIsBlkd);
+		blockFunctionObject.setEntProjOtherExpensePostgIsBlkd(EntProjOtherExpensePostgIsBlkd);
+		blockFunctionObject.setEntProjPurchasingIsBlkd(EntProjPurchasingIsBlkd);
+		
+		String body = new GsonBuilder().create().toJson(blockFunctionObject);
+
+		ApiResponseHolder apiResponseHolder = RestAssuredClient.doPost(createBlockFunctionPSTUrl, body, getCsrfToken(),
+				requestHeader);
+		return apiResponseHolder;
+
+	}
+	
+	/**
+	 * This Method will verify Whether Block Function has been created
+	 * successfully for PST in Created Status
+	 * 
+	 */
+	public boolean verifyCreateBlockFunctionPST(boolean EntProjTimeRecgIsBlkd, boolean EntProjStaffExpensePostgIsBlkd,
+			boolean EntProjServicePostingIsBlkd, boolean EntProjOtherExpensePostgIsBlkd,
+			boolean EntProjPurchasingIsBlkd, String projectProfile) {
+		Service service = new Service();
+
+		Date date = new Date();
+		long time = date.getTime();
+		String projName = "Proj_" + time;
+		String myProjectUUID = "";
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", projectProfile);
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+
+			myProjectUUID = createProjectResponse.getProjectUUID();
+
+		}
+
+		ApiResponseHolder apiresponseHolder2 = service.createBlockFunctionForPSTAPI(myProjectUUID,
+				EntProjTimeRecgIsBlkd, EntProjStaffExpensePostgIsBlkd, EntProjServicePostingIsBlkd,
+				EntProjOtherExpensePostgIsBlkd, EntProjPurchasingIsBlkd);
+
+		if (apiresponseHolder2.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse2 = sanitizeOutput(apiresponseHolder2.getResponse());
+
+			CreateBlockFunctionsPSTResponse createblockFunctionresponse = gson.fromJson(newResponse2,
+					CreateBlockFunctionsPSTResponse.class);
+
+			System.out.println("**** repsonse is *****" +createblockFunctionresponse);
+			
+			if (createblockFunctionresponse.getEntProjOtherExpensePostgIsBlkd() == EntProjOtherExpensePostgIsBlkd
+					&& createblockFunctionresponse.getEntProjServicePostingIsBlkd() == EntProjServicePostingIsBlkd
+					&& createblockFunctionresponse.getEntProjStaffExpensePostgIsBlkd() == EntProjStaffExpensePostgIsBlkd
+					&& createblockFunctionresponse.getEntProjTimeRecgIsBlkd() == EntProjTimeRecgIsBlkd
+					&& createblockFunctionresponse.getEntProjPurchasingIsBlkd() == EntProjPurchasingIsBlkd) {
+
+				return true;
+
+			}
+		}
+		return false;
+
+	}
+	
+	/**
+	 * This methods verifies whether Single Block functions is
+	 * created for OVH project
+	 * 
+	 */
+	public boolean verifyCreateSingleBFPSTOVHProj() {
+		String projectProfile = "YP03";
+		boolean EntProjTimeRecgIsBlkd = true;
+		boolean EntProjStaffExpensePostgIsBlkd = false;
+		boolean EntProjServicePostingIsBlkd = false;
+		boolean EntProjOtherExpensePostgIsBlkd = false;
+		boolean EntProjPurchasingIsBlkd = false;
+		
+		boolean value = verifyCreateBlockFunctionPST(EntProjTimeRecgIsBlkd, EntProjStaffExpensePostgIsBlkd, EntProjServicePostingIsBlkd,
+				EntProjOtherExpensePostgIsBlkd, EntProjPurchasingIsBlkd, projectProfile);
+		
+		return value;
+	}
+	
+	
+	/**
+	 * This Method will verify Whether Block Function has been Updated
+	 * successfully for PST
+	 * 
+	 */
+	public boolean verifyUpdateBlockFunctionPST(boolean EntProjTimeRecgIsBlkd, boolean EntProjStaffExpensePostgIsBlkd,
+			boolean EntProjServicePostingIsBlkd, boolean EntProjOtherExpensePostgIsBlkd,
+			boolean EntProjPurchasingIsBlkd, String projectProfile) {
+		Service service = new Service();
+
+		Date date = new Date();
+		long time = date.getTime();
+		String projName = "Proj_" + time;
+		String myProjectUUID = "";
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", projectProfile);
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+
+			myProjectUUID = createProjectResponse.getProjectUUID();
+
+		}
+
+		ApiResponseHolder apiresponseHolder2 = service.createBlockFunctionForPSTAPI(myProjectUUID,
+				EntProjTimeRecgIsBlkd, EntProjStaffExpensePostgIsBlkd, EntProjServicePostingIsBlkd,
+				EntProjOtherExpensePostgIsBlkd, EntProjPurchasingIsBlkd);
+
+		if (apiresponseHolder2.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse2 = sanitizeOutput(apiresponseHolder2.getResponse());
+
+			CreateBlockFunctionsPSTResponse createblockFunctionresponse = gson.fromJson(newResponse2,
+					CreateBlockFunctionsPSTResponse.class);
+
+			System.out.println("**** repsonse is *****" + createblockFunctionresponse);
+
+			if (createblockFunctionresponse.getEntProjTimeRecgIsBlkd() == EntProjTimeRecgIsBlkd) {
+//				boolean newTimeRecordingValue = false;
+//				boolean newOtherExpensepostingvalue = true;
+
+				CreateBlockFunctionsPSTRequest updateRequest = new CreateBlockFunctionsPSTRequest();
+				updateRequest.setEntProjServicePostingIsBlkd(true);
+				updateRequest.setEntProjTimeRecgIsBlkd(false);
+				
+
+				ApiResponseHolder apiResponseHolder3 = service.updatePSTBlockFunctionAPI(updateRequest, myProjectUUID);
+
+				if (apiResponseHolder3.getStatusCode() == 204) {
+					
+
+					return true;
+
+				}
+				return false;
+			}
+
+		}
+		return false;
+
+	}
+	
+	/**
+	 * This is a UPDATE API used for Updating Block function for PST
+	 * 
+	 */
+	public ApiResponseHolder updatePSTBlockFunctionAPI(CreateBlockFunctionsPSTRequest request,
+			String projectUUID) {
+		String body = new GsonBuilder().create().toJson(request);
+		String csrf = getCsrfToken();
+		requestHeader.put("If-Match", "*");
+		ApiResponseHolder apiResponseHolder = RestAssuredClient.doPatch(
+				UPDATE_PST_BLOCK_FUNCTION_URL.replace("{GUID}", projectUUID), body, csrf, requestHeader);
+		requestHeader.remove("If-Match");
+		return apiResponseHolder;
+
+	}
+	
+	/**
+	 * This methods verifies whether Single Block functions is
+	 * created for OVH project
+	 * 
+	 */
+	public boolean verifyUpdateMultipleBlockFunctionPST() {
+		String projectProfile = "YP03";
+		boolean EntProjTimeRecgIsBlkd = true;
+		boolean EntProjStaffExpensePostgIsBlkd = false;
+		boolean EntProjServicePostingIsBlkd = false;
+		boolean EntProjOtherExpensePostgIsBlkd = true;
+		boolean EntProjPurchasingIsBlkd = false;
+
+		boolean value = verifyUpdateBlockFunctionPST(EntProjTimeRecgIsBlkd, EntProjStaffExpensePostgIsBlkd,
+				EntProjServicePostingIsBlkd, EntProjOtherExpensePostgIsBlkd, EntProjPurchasingIsBlkd, projectProfile);
+
+		return value;
+	}
+	
+	/**
+	 * This methods verifies whether Multiple Block functions is
+	 * created for INvestment project
+	 * 
+	 */
+	public boolean verifyCreateMultipleBFPSTINVProj() {
+		String projectProfile = "YP04";
+		boolean EntProjTimeRecgIsBlkd = true;
+		boolean EntProjStaffExpensePostgIsBlkd = true;
+		boolean EntProjServicePostingIsBlkd = false;
+		boolean EntProjOtherExpensePostgIsBlkd = true;
+		boolean EntProjPurchasingIsBlkd = false;
+		
+		boolean value = verifyCreateBlockFunctionPST(EntProjTimeRecgIsBlkd, EntProjStaffExpensePostgIsBlkd, EntProjServicePostingIsBlkd,
+				EntProjOtherExpensePostgIsBlkd, EntProjPurchasingIsBlkd, projectProfile);
+		
+		return value;
+	}
+	
+	/**
+	 * This methods verifies whether Multiple Block functions is
+	 * created for Statistical project
+	 * 
+	 */
+	public boolean verifyCreateMultipleBFPSTSTATProj() {
+		String projectProfile = "YP04";
+		boolean EntProjTimeRecgIsBlkd = false;
+		boolean EntProjStaffExpensePostgIsBlkd = true;
+		boolean EntProjServicePostingIsBlkd = true;
+		boolean EntProjOtherExpensePostgIsBlkd = false;
+		boolean EntProjPurchasingIsBlkd = true;
+		
+		boolean value = verifyCreateBlockFunctionPST(EntProjTimeRecgIsBlkd, EntProjStaffExpensePostgIsBlkd, EntProjServicePostingIsBlkd,
+				EntProjOtherExpensePostgIsBlkd, EntProjPurchasingIsBlkd, projectProfile);
+		
+		return value;
+	}
+	
+	/**
+	 * This methods verifies whether Multiple Block functions is
+	 * created for revenue project
+	 * 
+	 */
+	public boolean verifyCreateMultipleBFPSTRevProj() {
+		String projectProfile = "YP05";
+		boolean EntProjTimeRecgIsBlkd = true;
+		boolean EntProjStaffExpensePostgIsBlkd = true;
+		boolean EntProjServicePostingIsBlkd = false;
+		boolean EntProjOtherExpensePostgIsBlkd = true;
+		boolean EntProjPurchasingIsBlkd = true;
+		
+		boolean value = verifyCreateBlockFunctionPST(EntProjTimeRecgIsBlkd, EntProjStaffExpensePostgIsBlkd, EntProjServicePostingIsBlkd,
+				EntProjOtherExpensePostgIsBlkd, EntProjPurchasingIsBlkd, projectProfile);
+		
+		return value;
+	}
+	
+	/**
+	 * This Method will verify Whether Block Function has been created
+	 * successfully for PST in Released Status
+	 * 
+	 */
+	public boolean verifyCreateBlockFunctionReleasedPST(boolean EntProjTimeRecgIsBlkd,
+			boolean EntProjStaffExpensePostgIsBlkd, boolean EntProjServicePostingIsBlkd,
+			boolean EntProjOtherExpensePostgIsBlkd, boolean EntProjPurchasingIsBlkd, String projectProfile) {
+		Service service = new Service();
+
+		Date date = new Date();
+		long time = date.getTime();
+		String projName = "Proj_" + time;
+		String myProjectUUID = "";
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2018-10-07T00:00:00", "2018-12-31T00:00:00", "YB600", "10101501", projectProfile);
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+
+			myProjectUUID = createProjectResponse.getProjectUUID();
+
+			CreateProjectRequest requestObjectt = new CreateProjectRequest();
+
+			ApiResponseHolder apiResponseHoldeNew2 = service.setProjectStatusReleasedAPI(requestObjectt, myProjectUUID);
+
+			if (!(apiResponseHoldeNew2.getStatusCode() == 200)) {
+				return false;
+			}
+
+		}
+
+		ApiResponseHolder apiresponseHolder2 = service.createBlockFunctionForPSTAPI(myProjectUUID,
+				EntProjTimeRecgIsBlkd, EntProjStaffExpensePostgIsBlkd, EntProjServicePostingIsBlkd,
+				EntProjOtherExpensePostgIsBlkd, EntProjPurchasingIsBlkd);
+
+		if (apiresponseHolder2.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse2 = sanitizeOutput(apiresponseHolder2.getResponse());
+
+			CreateBlockFunctionsPSTResponse createblockFunctionresponse = gson.fromJson(newResponse2,
+					CreateBlockFunctionsPSTResponse.class);
+
+			System.out.println("**** repsonse is *****" + createblockFunctionresponse);
+
+			if (createblockFunctionresponse.getEntProjOtherExpensePostgIsBlkd() == EntProjOtherExpensePostgIsBlkd
+					&& createblockFunctionresponse.getEntProjServicePostingIsBlkd() == EntProjServicePostingIsBlkd
+					&& createblockFunctionresponse.getEntProjStaffExpensePostgIsBlkd() == EntProjStaffExpensePostgIsBlkd
+					&& createblockFunctionresponse.getEntProjTimeRecgIsBlkd() == EntProjTimeRecgIsBlkd
+					&& createblockFunctionresponse.getEntProjPurchasingIsBlkd() == EntProjPurchasingIsBlkd) {
+
+				return true;
+
+			}
+		}
+		return false;
+
+	}
+	
+	/**
+	 * This methods verifies whether Multiple Block functions is
+	 * created for Released project
+	 * 
+	 */
+	public boolean verifyCreateMultipleBFPSTReleasedProj() {
+		String projectProfile = "YP05";
+		boolean EntProjTimeRecgIsBlkd = true;
+		boolean EntProjStaffExpensePostgIsBlkd = true;
+		boolean EntProjServicePostingIsBlkd = false;
+		boolean EntProjOtherExpensePostgIsBlkd = true;
+		boolean EntProjPurchasingIsBlkd = true;
+		
+		boolean value = verifyCreateBlockFunctionReleasedPST(EntProjTimeRecgIsBlkd, EntProjStaffExpensePostgIsBlkd, EntProjServicePostingIsBlkd,
+				EntProjOtherExpensePostgIsBlkd, EntProjPurchasingIsBlkd, projectProfile);
+		
+		return value;
+	}
+	
+	/**
+	 * This methods is Get API for values of
+	 * Block Functions for PST
+	 * 
+	 */
+	public ApiResponseHolder getPSTBlockFunctionsAPI(String projectUUID) {
+		CreateBlockFunctionsPSTRequest createBFObj = new CreateBlockFunctionsPSTRequest();
+		String body = new GsonBuilder().create().toJson(createBFObj);
+//		
+//		ApiResponseHolder apiResponseHolder = RestAssuredClient.doGet(GET_PST_BLOCK_FUNCTIONS_URL.replace("{pUUID}", projectUUID), getCsrfToken(), requestHeader);
+
+		ApiResponseHolder apiResponseHolder = RestAssuredClient
+				.doGet(GET_PST_BLOCK_FUNCTIONS_URL.replace("{pUUID}", projectUUID), getCsrfToken(), requestHeader);
+		
+		return apiResponseHolder;
+
+	}
+	
+	/**
+	 * This methods verifies GET Block functions 
+	 *  for PST
+	 * 
+	 */
+	public boolean verifyGetBFPST() {
+		String projectUUID = "506b4bc3-44e0-1eda-a3bc-7ca5cfc7dbdd";
+
+		Service service = new Service();
+		ApiResponseHolder apiResponseHolder = service.getPSTBlockFunctionsAPI(projectUUID);
+
+		if (apiResponseHolder.getStatusCode() == 200) {
+			Gson gson = new Gson();
+			String newResponse2 = sanitizeOutput(apiResponseHolder.getResponse());
+
+			CreateBlockFunctionsPSTResponse createblockFunctionresponse = gson.fromJson(newResponse2,
+					CreateBlockFunctionsPSTResponse.class);
+
+			System.out.println("**** repsonse is *****" + createblockFunctionresponse);
+
+			if (createblockFunctionresponse.getEntProjOtherExpensePostgIsBlkd() == false
+					&& createblockFunctionresponse.getEntProjServicePostingIsBlkd() == true
+					&& createblockFunctionresponse.getEntProjStaffExpensePostgIsBlkd() == false
+					&& createblockFunctionresponse.getEntProjTimeRecgIsBlkd() == true
+					&& createblockFunctionresponse.getEntProjPurchasingIsBlkd() == false) {
+
+				return true;
+			}
+		}
+		return false;
+
+	}
+	
+	/**
+	 * This methods verifies GET Block functions 
+	 *  for Released PST
+	 * 
+	 */
+	public boolean verifyGetBFReleasedPST() {
+		String projectUUID = "506b4bc3-4648-1eea-a3bd-a0fd5b212d0a";
+
+		Service service = new Service();
+		ApiResponseHolder apiResponseHolder = service.getPSTBlockFunctionsAPI(projectUUID);
+
+		if (apiResponseHolder.getStatusCode() == 200) {
+			Gson gson = new Gson();
+			String newResponse2 = sanitizeOutput(apiResponseHolder.getResponse());
+
+			CreateBlockFunctionsPSTResponse createblockFunctionresponse = gson.fromJson(newResponse2,
+					CreateBlockFunctionsPSTResponse.class);
+
+			System.out.println("**** repsonse is *****" + createblockFunctionresponse);
+
+			if (createblockFunctionresponse.getEntProjOtherExpensePostgIsBlkd() == false
+					&& createblockFunctionresponse.getEntProjServicePostingIsBlkd() == true
+					&& createblockFunctionresponse.getEntProjStaffExpensePostgIsBlkd() == false
+					&& createblockFunctionresponse.getEntProjTimeRecgIsBlkd() == true
+					&& createblockFunctionresponse.getEntProjPurchasingIsBlkd() == false) {
+
+				return true;
+			}
+		}
+		return false;
+
+	}
+	
+	/**
+	 * This methods verifies GET Block functions 
+	 *  for Deleted PST
+	 * 
+	 */
+	public boolean verifyGetBFDeletedPST() {
+		String projectUUID = "98be94f7-bf51-1eda-9dbb-2baf9c14c4af";
+
+		Service service = new Service();
+		ApiResponseHolder apiResponseHolder = service.getPSTBlockFunctionsAPI(projectUUID);
+
+		if (apiResponseHolder.getStatusCode() == 404) {
+
+			String errorText = getErrorText(apiResponseHolder);
+			if (errorText.toLowerCase().equals("resource not found for segment 'a_enterpriseprojblkfunctype'")) {
+				return true;
+			}
+			return false;
+		}
+		return false;
+	}
+	
+	/**
+	 * This Method is CREATE API for BLOCK FUNCTION
+	 * for WBS level
+	 * 
+	 */
+	public ApiResponseHolder createWBSBlockFunctionAPI(String projectElementUUID, boolean EntProjTimeRecgIsBlkd, boolean EntProjStaffExpensePostgIsBlkd,
+			boolean EntProjServicePostingIsBlkd, boolean EntProjOtherExpensePostgIsBlkd, boolean EntProjPurchasingIsBlkd) {
+
+		CreateBlockFunctionWBSRequest blockFunctionObject = new CreateBlockFunctionWBSRequest();
+
+		blockFunctionObject.setProjectElementUUID(projectElementUUID);
+		blockFunctionObject.setEntProjServicePostingIsBlkd(EntProjServicePostingIsBlkd);
+		blockFunctionObject.setEntProjTimeRecgIsBlkd(EntProjTimeRecgIsBlkd);
+		blockFunctionObject.setEntProjStaffExpensePostgIsBlkd(EntProjStaffExpensePostgIsBlkd);
+		blockFunctionObject.setEntProjOtherExpensePostgIsBlkd(EntProjOtherExpensePostgIsBlkd);
+		blockFunctionObject.setEntProjPurchasingIsBlkd(EntProjPurchasingIsBlkd);
+		
+		String body = new GsonBuilder().create().toJson(blockFunctionObject);
+
+		ApiResponseHolder apiResponseHolder = RestAssuredClient.doPost(Create_Block_Function_WBS_URl, body, getCsrfToken(),
+				requestHeader);
+		return apiResponseHolder;
+
+	}
+	
+
+	/**
+	 * This Method Verifies Creation of Block Function
+	 * for WBS level
+	 * 
+	 */
+	public boolean verifyCreateWBSBlockFunctionsOVH(boolean EntProjTimeRecgIsBlkd,
+			boolean EntProjStaffExpensePostgIsBlkd, boolean EntProjServicePostingIsBlkd,
+			boolean EntProjOtherExpensePostgIsBlkd, boolean EntProjPurchasingIsBlkd, String projectProfile) {
+		Service service = new Service();
+		Date date = new Date();
+		long time = date.getTime();
+		String myProjectElementUUID = "";
+
+		String projName = "Proj_" + time;
+		String parentWBSName = "Test_" + time + "_PJT1";
+		String firstChildWBSName = "Test_" + time + "_1";
+		String secondChildWBSWBSName = "Test_" + time + "_2";
+
+		System.out.println("Project name was --->" + projName);
+
+		ApiResponseHolder apiResponseHolder = service.createProjectAPI(projName, "Proj_Description",
+				"2019-10-07T00:00:00", "2019-12-31T00:00:00", "YB600", "10101501", projectProfile);
+
+		if (apiResponseHolder.getStatusCode() == 201) {
+			Gson gson = new Gson();
+			String newResponse = sanitizeOutput(apiResponseHolder.getResponse());
+			CreateProjectResponse createProjectResponse = gson.fromJson(newResponse, CreateProjectResponse.class);
+
+			List<CreateWBSElementsRequest> list = new ArrayList<CreateWBSElementsRequest>();
+			CreateWBSElementsRequest request1 = new CreateWBSElementsRequest(firstChildWBSName, "firstChildWBSName",
+					"750", "2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB600");
+			CreateWBSElementsRequest request2 = new CreateWBSElementsRequest(secondChildWBSWBSName,
+					"secondChildWBSWBSName", "760", "2019-10-07T00:00:00", "2019-12-31T00:00:00", "10101501", "YB600");
+			list.add(request1);
+			list.add(request2);
+
+			apiResponseHolder = service.createWBSElementsAPI(parentWBSName, parentWBSName, "700", "2019-10-07T00:00:00",
+					"2019-12-31T00:00:00", "10101501", "YB600", list, createProjectResponse.getProjectUUID());
+
+			if (apiResponseHolder.getStatusCode() == 201) {
+				String newResponse1 = sanitizeOutput(apiResponseHolder.getResponse());
+				CreateWBSElementsResponse createWBSResponse = gson.fromJson(newResponse1,
+						CreateWBSElementsResponse.class);
+
+				System.out.println(createWBSResponse);
+				System.out.println("Project UUID ---->" + createWBSResponse.getProjectUUID());
+
+				List<CreateWBSElementsResponse> results = createWBSResponse.getTo_SubProjElement().getResults();
+				if (results.size() == 2) {
+					myProjectElementUUID = results.get(1).getProjectElementUUID();
+
+					System.out.println("result--->" + results);
+					System.out.println(results.get(1).getProjectElementDescription());
+					System.out.println(results.get(1).getProjectElementUUID());
+
+					ApiResponseHolder apiresponseHolder2 = service.createWBSBlockFunctionAPI(myProjectElementUUID,
+							EntProjTimeRecgIsBlkd, EntProjStaffExpensePostgIsBlkd, EntProjServicePostingIsBlkd,
+							EntProjOtherExpensePostgIsBlkd, EntProjPurchasingIsBlkd);
+
+					if (apiresponseHolder2.getStatusCode() == 201) {
+						// Gson gson = new Gson();
+						String newResponse2 = sanitizeOutput(apiresponseHolder2.getResponse());
+
+						CreateBlockFunctionWBSResponse createBlockFunctionWBSResponse = gson.fromJson(newResponse2,
+								CreateBlockFunctionWBSResponse.class);
+
+						System.out.println("**** repsonse is *****" + createBlockFunctionWBSResponse);
+
+						if (createBlockFunctionWBSResponse
+								.getEntProjOtherExpensePostgIsBlkd() == EntProjOtherExpensePostgIsBlkd
+								&& createBlockFunctionWBSResponse
+										.getEntProjServicePostingIsBlkd() == EntProjServicePostingIsBlkd
+								&& createBlockFunctionWBSResponse
+										.getEntProjStaffExpensePostgIsBlkd() == EntProjStaffExpensePostgIsBlkd
+								&& createBlockFunctionWBSResponse.getEntProjTimeRecgIsBlkd() == true
+								&& createBlockFunctionWBSResponse
+										.getEntProjPurchasingIsBlkd() == EntProjPurchasingIsBlkd) {
+
+							return true;
+
+						}
+						return false;
+					}
+					return false;
+				}
+				return false;
+			}
+			return false;
+		}
+
+		return false;
+
+	}
+	
+	/**
+	 * This methods verifies whether Multiple Block functions is
+	 * created for OVH WBS 
+	 * 
+	 */
+	public boolean verifyCreateWBSBlockFunctionOVH() {
+		String projectProfile = "YP03";
+		boolean EntProjTimeRecgIsBlkd = true;
+		boolean EntProjStaffExpensePostgIsBlkd = false;
+		boolean EntProjServicePostingIsBlkd = false;
+		boolean EntProjOtherExpensePostgIsBlkd = true;
+		boolean EntProjPurchasingIsBlkd = false;
+
+		boolean value = verifyCreateWBSBlockFunctionsOVH(EntProjTimeRecgIsBlkd, EntProjStaffExpensePostgIsBlkd,
+				EntProjServicePostingIsBlkd, EntProjOtherExpensePostgIsBlkd, EntProjPurchasingIsBlkd, projectProfile);
+
+		return value;
 	}
 
 	
