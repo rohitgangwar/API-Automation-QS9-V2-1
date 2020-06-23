@@ -2096,7 +2096,7 @@ public class Service {
 										.getEntProjServicePostingIsBlkd() == EntProjServicePostingIsBlkd
 								&& createBlockFunctionWBSResponse
 										.getEntProjStaffExpensePostgIsBlkd() == EntProjStaffExpensePostgIsBlkd
-								&& createBlockFunctionWBSResponse.getEntProjTimeRecgIsBlkd() == false
+								&& createBlockFunctionWBSResponse.getEntProjTimeRecgIsBlkd() == true
 								&& createBlockFunctionWBSResponse
 										.getEntProjPurchasingIsBlkd() == EntProjPurchasingIsBlkd) {
 
