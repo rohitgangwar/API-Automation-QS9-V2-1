@@ -10,6 +10,10 @@
       <class name="eppmAPIFramework.com.rest.test.UpdateWBSElementTest"/>
       <class name="eppmAPIFramework.com.rest.test.DeleteProjectTest"/>
       <class name="eppmAPIFramework.com.rest.test.CreateProjectNegativeTest"/>
+      <class name="eppmAPIFramework.com.rest.test.CreateBlockFunctionsPSTTest"/>
+      <class name="eppmAPIFramework.com.rest.test.CreateBlockFunctionWBSTest"/>
+      <class name="eppmAPIFramework.com.rest.test.GetBlockFunctionsTest"/>
+      <class name="eppmAPIFramework.com.rest.test.UpdateBlockFunctionPST"/>
     </classes>
     
   </test> <!-- APITests -->
