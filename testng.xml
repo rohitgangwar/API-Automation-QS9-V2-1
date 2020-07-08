@@ -2,7 +2,7 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
 <suite name="EPPMAPITestSuite">
-  <test thread-count="5" name="APITests">
+  <test thread-count="10" name="APITests">
   
     <classes>
       <class name="eppmAPIFramework.com.rest.test.CreateProjectTest"/>
