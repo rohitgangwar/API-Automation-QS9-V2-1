@@ -1317,7 +1317,7 @@ public class Service {
 		} else {
 			Gson gson = new Gson();
 			String errorText = getErrorText(apiResponseHolder);
-			if (errorText.toLowerCase().equals("enter a valid value for the project profile.")) {
+			if (errorText.toLowerCase().equals("project category not supported.")) {
 				return true;
 			}
 		}
