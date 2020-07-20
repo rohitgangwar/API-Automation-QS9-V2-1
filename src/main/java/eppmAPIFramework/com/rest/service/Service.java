@@ -244,7 +244,7 @@ public class Service {
 		CreateWBSElementsRequest request = new CreateWBSElementsRequest();
 		request.setProjectElementDescription(projDesc);
 		ApiResponseHolder apiResponseHolder = service.updateWBSElementAttributesAPI(request,
-				"0894ef45-7d01-1eea-a3be-9ccffb1b0331");
+				"0894ef45-7d01-1eda-b2cb-8fec72aae0cf");
 
 		return apiResponseHolder.getStatusCode() == 204;
 
